@@ -1,7 +1,7 @@
 # 2 - Tjugoett
 
 - Examinationsuppgift 2
-- [GitBook](https://coursepress.gitbooks.io/1dv021/content/examinationsuppgifter/examinationsuppgift-2/)
+- [GitBook](https://coursepress.gitbook.io/1dv021/examinationsuppgifter/2-tjugoett)
 
 > __VIKTIGT!__ Innan du börjar arbeta med examinationsuppgiften är det viktigt att du lägger till examinationsuppgiftens repo till ditt repo för examinationsuppgiften.
 
