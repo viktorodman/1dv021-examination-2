@@ -136,6 +136,10 @@ Player #5 wins!</pre>
 Exempel på utfall med fem spelare vid bordet.
 </figcaption>
 
+Undvik om lämpligt att upprepa kod och bryt därför inte mot principen DRY ("don't repeat yourself").
+
+Dokumentera typer och funktioner genom att använda JSDOC-kommentarer (beskrivning ska finnas och dokumentation av parametrar, kastade undatag och returvärden). Använd även radkommentarer innuti funktioner i de fall det är befogat.
+
 ## Bedömning
 
 Bedömning av examinationsuppgiften görs enligt skalan U/G/VG. För att få VG i slutbetyg krävs VG på denna examinationsuppgift, samt G på examinationsuppgift 1.
