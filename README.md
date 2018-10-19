@@ -35,9 +35,12 @@ I Tjugoett gäller det att komma till, eller så nära som möjligt, summan 21 p
 
 Given ger alla spelare ett kort var från draghögen. Given tar inte själv något kort. Spelarna spelar nu mot given en i taget i turordning. När det är en spelares tur begär spelaren ett kort av given. Efter spelarens andra kort kan något av följande inträffa:
 
-1. Spelaren har fått 21 och vinner.
-2. Spelaren har spruckit, d.v.s. fått en summa större än 21, och förlorar.
-3. Spelaren begär ytterligare kort tills summan är 21, större än 21 eller förklara sig nöjd.
+1. Spelaren har fått 21 och vinner direkt.
+2. Spelaren har fem kort på handen, en summa mindre än 21 och vinner direkt.
+3. Spelaren har spruckit, d.v.s. fått en summa större än 21, och förlorar direkt.
+4. Spelaren begär ytterligare kort tills summan är 21, har fem kort på handen,
+
+   summan större än 21, eller förklara sig nöjd.
 
 Om en spelare inte vunnit eller förlorat direkt utan istället förklarat sig nöjd är det givens tur att försöka straffa spelaren. Given drar kort från draghögen, ett efter ett, och något av följande kan inträffa:
 
@@ -68,11 +71,15 @@ Efter varje spelomgång ska resultatet presenteras. Det ska framgå vilka kort s
 
 #### Exempel på utfall med en spelare vid bordet.
 
+Spelaren och given förklarar sig nöjda och given vinner då given har den högsta summan.
+
 ```text
 Player #1: 6♣ 7♥ 2♣ (15)
 Dealer   : 9♥ Kn♠ (20)
 Dealer wins!
 ```
+
+Spelaren får 21 och vinner direkt.
 
 ```text
 Player #1: A♥ 10♠ A♣ 9♠ (21)
@@ -80,11 +87,15 @@ Dealer   : -
 Player wins!
 ```
 
+Spelaren och given är nöjda och har samma summa på handen varför given vinner.
+
 ```text
 Player #1: 5♣ K♠ (18)
 Dealer   : J♣ 7♥ (18)
 Dealer wins!
 ```
+
+Spelaren nöjd, given spricker varför spelaren vinner.
 
 ```text
 Player #1: 3♦ 7♠ 5♠ (15)
@@ -92,11 +103,15 @@ Dealer   : 8♥ 6♥ J♦ (25) BUSTED!
 Player wins!
 ```
 
+Spelaren spricker varför given vinner direkt.
+
 ```text
 Player #1: 4♣ 9♥ J♥ (24) BUSTED!
 Dealer   : -
 Dealer wins!
 ```
+
+Spelaren drar fem kort och får en summa under 21 och vinner direkt.
 
 ```text
 Player #1: 4♠ 6♦ 2♦ 2♠ 2♥ (16)
