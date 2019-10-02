@@ -3,14 +3,26 @@
 class Deck {
   /* constructor () {
 
-  } */
-
+  }
+ */
   createDeck () {
-    const newDeck = []
+    /* const newDeck = []
     for (let i = 1; i <= 52; i++) {
       newDeck.push(i)
     }
-    return newDeck
+    return newDeck */
+    const SUIT = ['Clubs', 'Diamonds', 'Hearts', 'Spades']
+    const RANKS = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King']
+    const deck = []
+    SUIT.forEach(function (suit) {
+      RANKS.forEach(function (rank) {
+        deck.push({
+          suit: suit,
+          rank: rank
+        })
+      })
+    })
+    return deck
   }
 
   shuffleCards () {
