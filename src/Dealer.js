@@ -2,11 +2,11 @@ const Deck = require('./Deck')
 class Dealer {
   constructor (stopScore) {
     this.stopScore = stopScore
-    this.deck = new Deck()
   }
 
-  dealCards () {
-
+  drawCard (deck) {
+    const drawnCard = deck.pop()
+    return drawnCard
   }
 
   shuffleCards (deckOfCards) {
