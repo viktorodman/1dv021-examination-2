@@ -5,4 +5,10 @@ class Player {
     this.name = name
     this.stopscore = stopscore
   }
+
+  createNewPlayer () {
+    return { name: this.name, stopscore: this.stopscore, cardsOnHand: [] }
+  }
 }
+
+module.exports = Player
