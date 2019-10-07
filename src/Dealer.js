@@ -2,10 +2,12 @@ const Deck = require('./Deck')
 class Dealer {
   constructor (stopScore) {
     this.stopScore = stopScore
+    this.cardsOnHand = []
   }
 
   drawCard (deck) {
     const drawnCard = deck.pop()
+    this.cardsOnHand.push(drawnCard)
     return drawnCard
   }
 
@@ -27,7 +29,7 @@ class Dealer {
   }
 
   showCards () {
-    console.log(this.deck)
+    return this.cardsOnHand
   }
 }
 module.exports = Dealer
