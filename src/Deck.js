@@ -1,20 +1,23 @@
 'use strict'
-
+const Card = require('./Card')
 class Deck {
+  constructor () {
+    this.deck = this.createDeck()
+  }
+
   createDeck () {
-    const suits = ['Clubs', 'Diamonds', 'Hearts', 'Spades']
-    const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
-    const deck = []
-    suits.forEach(function (suit) {
-      ranks.forEach(function (rank, i) {
-        deck.push({
+    const card = new Card()
+    const newDeck = []
+    card.suits.forEach(function (suit) {
+      card.ranks.forEach(function (rank, i) {
+        newDeck.push({
           suit: suit,
           rank: rank,
           value: i + 2
         })
       })
     })
-    return deck
+    return newDeck
   }
 }
 

@@ -7,7 +7,12 @@ class Player {
   }
 
   createNewPlayer () {
-    return { name: this.name, stopscore: this.stopscore, cardsOnHand: [] }
+    return {
+      name: this.name,
+      stopscore: this.stopscore,
+      cardsOnHand: [],
+      score: 0
+    }
   }
 }
 

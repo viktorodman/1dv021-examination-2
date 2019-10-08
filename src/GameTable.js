@@ -2,9 +2,9 @@
 const Deck = require('./Deck')
 const Dealer = require('./Dealer')
 class GameTable {
-  constructor (numberOfPlayers, playerStopScores, dealerStopScore) {
-    this.numberOfPlayers = numberOfPlayers
-    this.newDeck = new Deck().createDeck()
+  constructor (participants) {
+    this.participants = participants
+    this.newDeck = new Deck().deck
     this.dealer = new Dealer(13)
     this.throwpile = []
   }
@@ -27,6 +27,10 @@ class GameTable {
 
   cardsOnHand () {
     return this.dealer.showCards()
+  }
+
+  showParticipants () {
+    return this.participants
   }
 }
 
