@@ -4,14 +4,16 @@ class Player {
   constructor (name, stopscore) {
     this.name = name
     this.stopscore = stopscore
+    this.cardsOnHand = []
+    this.score = 0
   }
 
-  createNewPlayer () {
+  createPlayer () {
     return {
       name: this.name,
       stopscore: this.stopscore,
-      cardsOnHand: [],
-      score: 0
+      cardsOnHand: this.cardsOnHand,
+      score: this.score
     }
   }
 }

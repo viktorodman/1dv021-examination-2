@@ -1,8 +1,14 @@
 const Deck = require('./Deck')
-class Dealer {
+const Player = require('./Player')
+class Dealer extends Player {
   constructor (stopScore) {
-    this.stopScore = stopScore
+    super('Dealer', stopScore)
     this.cardsOnHand = []
+    this.score = 0
+  }
+
+  createDealer () {
+    super.createPlayer()
   }
 
   drawCard (deck) {

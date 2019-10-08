@@ -11,7 +11,7 @@ class Participants {
     const players = []
     for (let i = 0; i < this.numberOfPlayers; i++) {
       const player = new Player(`Player ${i + 1}`, this.stopScore[i])
-      players.push(player.createNewPlayer())
+      players.push(player.createPlayer())
     }
     return players
   }
