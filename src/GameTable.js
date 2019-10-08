@@ -4,16 +4,20 @@ const Dealer = require('./Dealer')
 class GameTable {
   constructor (participants) {
     this.participants = participants
-    this.newDeck = new Deck().deck
+    this.newDeck = new Deck().createDeck()
     this.dealer = new Dealer(13)
     this.throwpile = []
   }
-  // participants
 
   newGame () {
     this.dealer.shuffleCards(this.newDeck)
     for (let i = 0; i < 5; i++) {
       this.dealer.drawCard(this.newDeck)
+    }
+    /* this.participants[0].cardsOnHand.push(5) */
+    /* console.log(this.dealer.dealCard(this.newDeck)) */
+    for (let i = 0; i < this.participants.length; i++) {
+      this.participants[i].cardsOnHand = this.dealer.dealCard(this.newDeck)
     }
   }
 

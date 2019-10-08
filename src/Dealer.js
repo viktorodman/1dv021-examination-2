@@ -11,6 +11,11 @@ class Dealer {
     return drawnCard
   }
 
+  dealCard (deck) {
+    const example = deck.pop()
+    return example
+  }
+
   shuffleCards (deckOfCards) {
     // https://medium.com/@joshfoster_14132/best-javascript-shuffle-algorithm-c2c8057a3bc1
     let currentIndex = deckOfCards.length

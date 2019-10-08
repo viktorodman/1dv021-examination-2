@@ -9,12 +9,8 @@ class Deck {
     const card = new Card()
     const newDeck = []
     card.suits.forEach(function (suit) {
-      card.ranks.forEach(function (rank, i) {
-        newDeck.push({
-          suit: suit,
-          rank: rank,
-          value: i + 2
-        })
+      card.ranks.forEach(function (rank, value) {
+        newDeck.push(new Card().createCard(suit, rank, value + 2))
       })
     })
     return newDeck
