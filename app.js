@@ -16,8 +16,9 @@ const dealerStopValue = 13
 
 const gameTable = new GameTable(numberOfPlayers, playerStopValues, dealerStopValue)
 
-gameTable.newGame()
+console.log(gameTable.startGame())
 // console.log(gameTable.startGame())
+// console.log(gameTable.showParticipants())
 /* gameTable.dealer.shuffleCards() */
 /* console.log(gameTable.drawPile())
 console.log(gameTable.cardsOnHand())

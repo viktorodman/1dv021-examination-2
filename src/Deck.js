@@ -1,10 +1,6 @@
 'use strict'
 const Card = require('./Card')
 class Deck {
-  constructor () {
-    this.deck = this.createDeck()
-  }
-
   createDeck () {
     const card = new Card()
     const newDeck = []

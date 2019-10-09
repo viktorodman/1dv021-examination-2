@@ -8,14 +8,14 @@ class Dealer extends Player {
   }
 
   createDealer () {
-    super.createPlayer()
+    return super.createPlayer()
   }
 
-  drawCard (deck) {
+  /* drawCard (deck) {
     const drawnCard = deck.pop()
     this.cardsOnHand.push(drawnCard)
     return drawnCard
-  }
+  } */
 
   dealCard (deck) {
     const example = deck.pop()

@@ -1,8 +1,8 @@
 'use strict'
 
 class ThrowPile {
-  constructor () {
-    this.throwPile = []
+  createThrowPile () {
+    return []
   }
 
   throwCards (thrownCards) {
