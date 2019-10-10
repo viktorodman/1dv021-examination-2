@@ -8,13 +8,8 @@ class Player {
     this.score = 0
   }
 
-  createPlayer () {
-    return {
-      name: this.name,
-      stopscore: this.stopscore,
-      cardsOnHand: this.cardsOnHand,
-      score: this.score
-    }
+  addToScore (score) {
+    this.score += score
   }
 }
 

@@ -1,56 +1,32 @@
 'use strict'
 const Deck = require('./Deck')
 const Dealer = require('./Dealer')
-const Participants = require('./Participants')
-const ThrowPile = require('./ThrowPile')
+const Player = require('./Player')
 
 class GameTable {
-  constructor (numberOfPlayers, playerStopValues, dealerStopValue) {
+  constructor (numberOfPlayers) {
     this.numberOfPlayers = numberOfPlayers
-    this.playerStopValues = playerStopValues
-    this.dealerStopValue = dealerStopValue
-
     this.dealer = new Dealer()
-    this.participants = new Participants(numberOfPlayers, playerStopValues, dealerStopValue).addParticipants()
+    this.player = new Player()
     this.deck = new Deck()
-    this.throwPile = new ThrowPile().createThrowPile()
+    /* this.deck = new Deck() */
+  }
+
+  addParticipants () {
+    const players = []
+    players.push(new Dealer(14))
+    for (let i = 1; i <= this.numberOfPlayers; i++) {
+      players.push(new Player(`Player ${i}`, 15))
+    }
+    return players
   }
 
   startGame () {
-    // Shuffle Cards
-    const deck = this.deck.createDeck()
-    this.dealer.shuffleCards(deck)
-    // Hand out 1 card to all players
-    for (let i = 0; i < this.participants.length; i++) {
-      if (this.participants[i].name !== 'Dealer') {
-        const card = this.dealer.dealCard(deck)
-        this.participants[i].cardsOnHand.push(card)
-      }
-    }
-    // First player gets another card
-    /* const x = this.dealer.dealCard(this.deck)
-    this.participants[0].cardsOnHand.push(x) */
-    return deck.length
+    return this.deck
   }
 
-  showDealer () {
-    return this.dealer
-  }
+  playAgainstDealer () {
 
-  thrownCards () {
-    return this.throwPile
-  }
-
-  drawPile () {
-    return this.newDeck
-  }
-
-  cardsOnHand () {
-    return this.dealer.showCards()
-  }
-
-  showParticipants () {
-    return this.participants
   }
 }
 

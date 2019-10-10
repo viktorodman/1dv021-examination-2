@@ -1,25 +1,11 @@
-const Deck = require('./Deck')
+'use strict'
+
 const Player = require('./Player')
 class Dealer extends Player {
   constructor (stopScore) {
     super('Dealer', stopScore)
     this.cardsOnHand = []
     this.score = 0
-  }
-
-  createDealer () {
-    return super.createPlayer()
-  }
-
-  /* drawCard (deck) {
-    const drawnCard = deck.pop()
-    this.cardsOnHand.push(drawnCard)
-    return drawnCard
-  } */
-
-  dealCard (deck) {
-    const example = deck.pop()
-    return example
   }
 
   shuffleCards (deckOfCards) {
