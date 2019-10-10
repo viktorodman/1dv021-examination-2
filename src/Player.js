@@ -1,15 +1,28 @@
 'use strict'
 
 class Player {
-  constructor (name, stopscore) {
+  constructor (name, stopScore) {
     this.name = name
-    this.stopscore = stopscore
+    this.stopScore = stopScore
     this.cardsOnHand = []
     this.score = 0
   }
 
-  addToScore (score) {
-    this.score += score
+  addToScore (card) {
+    this.score += card
+  }
+
+  requestCard (card) {
+    this.cardsOnHand.push(card)
+    this.addToScore(card.value)
+  }
+
+  isDone () {
+    if (this.score < this.stopScore && this.cardsOnHand.length <= 5) {
+      return false
+    } else {
+      return true
+    }
   }
 }
 
