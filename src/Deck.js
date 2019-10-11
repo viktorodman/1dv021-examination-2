@@ -7,7 +7,7 @@ class Deck {
 
   createDeck () {
     const deck = []
-    const suits = ['Clubs', 'Diamonds', 'Hearts', 'Spades']
+    const suits = ['♣', '♦', '♥', '♠']
     const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
     suits.forEach(function (suit) {
       ranks.forEach(function (rank, value) {

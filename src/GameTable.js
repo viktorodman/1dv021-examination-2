@@ -10,6 +10,7 @@ class GameTable {
     this.player = new Player()
     this.deck = new Deck()
     this.participants = []
+    this.throwPile = []
     /* this.deck = new Deck() */
   }
 
@@ -23,18 +24,37 @@ class GameTable {
   playAgainstDealer () {
     const results = ''
     for (let i = 1; i < this.participants.length; i++) {
-      while (!this.participants[i].isDone()) {
-        this.participants[i].requestCard(this.deck.dealCard())
+      this.getCards(this.participants[i])
+      if (!this.checkWinOrLose(this.participants[i], this.participants[0])) {
+        this.getCards(this.participants[0])
+        if (!this.checkWinOrLose(this.participants[0], this.participants[i])) {
+          this.compare(this.participants[i], this.participants[0])
+        }
       }
-      this.checkWinner(this.participants[i])
+      this.throwCards(this.participants[i])
+      this.throwCards(this.participants[0])
+      this.participants[0].score = 0
     }
+    console.log(this.throwPile.length)
+    console.log(this.deck.newDeck.length)
   }
+
   // return results
 
   addParticipants () {
     this.participants.push(new Dealer(14))
     for (let i = 1; i <= this.numberOfPlayers; i++) {
       this.participants.push(new Player(`Player ${i}`, 15))
+    }
+  }
+
+  compare (player, dealer) {
+    if (player.score === dealer.score) {
+      this.logWinners(dealer, player)
+    } else if (player.score < dealer.score) {
+      this.logWinners(dealer, player)
+    } else {
+      this.logWinners(player, dealer)
     }
   }
 
@@ -46,23 +66,37 @@ class GameTable {
     }
   }
 
-  checkWinner (participant) {
-    if (participant.score === 21) {
-      console.log(participant)
-      this.logWinners(participant.name)
-    }
-    if (participant.score < 21 && participant.cardsOnHand.length === 5) {
-      console.log('YAAAAHOOOO!!!\n' + participant.name)
-      this.logWinners(participant.name)
-    }
-    if (participant.score > 21) {
-      console.log(participant)
-      this.logWinners(this.participants[0].name)
+  getCards (participant) {
+    while (!participant.isDone()) {
+      participant.requestCard(this.deck.dealCard())
     }
   }
 
-  logWinners (winner) {
-    console.log(`${winner} Wins !`)
+  checkWinOrLose (participant1, participant2) {
+    let endGame = false
+    if (participant1.checkWin()) {
+      this.logWinners(participant1, participant2)
+      endGame = true
+    } else if (participant1.checkLose()) {
+      this.logWinners(participant2, participant1)
+      endGame = true
+    }
+    return endGame
+  }
+
+  throwCards (participant) {
+    for (let i = 0; i < participant.cardsOnHand.length; i++) {
+      this.throwPile.push(participant.throwToPile())
+    }
+  }
+
+  logWinners (winner, loser) {
+    console.log('--------------------------')
+    console.log(`${winner.name} Wins ! Score: ${winner.score}`)
+    console.log(winner.cardsOnHand)
+    console.log(`${loser.name} Lose ! Score: ${loser.score}`)
+    console.log(loser.cardsOnHand)
+    console.log('--------------------------')
   }
 }
 
