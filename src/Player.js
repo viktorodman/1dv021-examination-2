@@ -48,6 +48,7 @@ class Player {
 
   throwToPile () {
     /* const cards = this.cardsOnHand.splice(0, this.cardsOnHand.length) */
+
     const cards = this.cardsOnHand.pop()
     return cards
   }
