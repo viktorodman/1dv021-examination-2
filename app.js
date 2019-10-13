@@ -2,7 +2,7 @@
 const GameTable = require('./src/GameTable')
 // const Participants = require('./src/Participants')
 // Number of players and stopValues
-const numberOfPlayers = 5
+const numberOfPlayers = 15
 /* const playerStopValues = [
   10, // Player 1
   14, // Player 2

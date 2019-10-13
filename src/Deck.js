@@ -2,19 +2,17 @@
 const Card = require('./Card')
 class Deck {
   constructor () {
-    this.newDeck = this.createDeck()
+    this.newDeck = []
   }
 
   createDeck () {
-    const deck = []
     const suits = ['♣', '♦', '♥', '♠']
-    const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
-    suits.forEach(function (suit) {
-      ranks.forEach(function (rank, value) {
-        deck.push(new Card(suit, rank, value + 2))
+    const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Kn', 'Q', 'K', 'A']
+    suits.forEach((suit) => {
+      ranks.forEach((rank, value) => {
+        this.newDeck.push(new Card(suit, rank, value + 2))
       })
     })
-    return deck
   }
 
   dealCard () {
@@ -36,6 +34,10 @@ class Deck {
       this.newDeck[currentIndex] = this.newDeck[randomIndex]
       this.newDeck[randomIndex] = temporaryValue
     }
+  }
+
+  cardsRemaining () {
+    return this.newDeck.length
   }
 }
 

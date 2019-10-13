@@ -9,7 +9,7 @@ class Player {
   }
 
   addToScore (card) {
-    if (card.rank === 'Ace' && this.score > 8) {
+    if (card.rank === 'A' && this.score > 8) {
       card.value = 1
     }
     this.score += card.value

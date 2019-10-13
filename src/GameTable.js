@@ -17,6 +17,7 @@ class GameTable {
 
   startGame () {
     this.addPlayers()
+    this.deck.createDeck()
     this.dealer = new Dealer(14)
     this.deck.shuffleCards()
     this.firstRound()
@@ -28,10 +29,10 @@ class GameTable {
       this.currentPlayer = this.players[i]
       this.getCards(this.currentPlayer)
 
-      if (!this.playersTurn(this.currentPlayer, this.dealer)) {
+      if (!this.checkWin(this.currentPlayer, this.dealer)) {
         this.getCards(this.dealer)
 
-        if (!this.playersTurn(this.dealer, this.currentPlayer)) {
+        if (!this.checkWin(this.dealer, this.currentPlayer)) {
           this.compare()
         }
       }
@@ -44,7 +45,7 @@ class GameTable {
     console.log(this.deck.newDeck.length)
   }
 
-  playersTurn (p1, p2) {
+  checkWin (p1, p2) {
     let endGame = false
     if (p1.checkWin()) {
       endGame = true
@@ -59,7 +60,7 @@ class GameTable {
   addPlayers () {
     // this.participants.push(new Dealer(14))
     for (let i = 1; i <= this.numberOfPlayers; i++) {
-      this.players.push(new Player(`Player ${i}`, 15))
+      this.players.push(new Player(`Player #${i}`, 15))
     }
   }
 
@@ -74,24 +75,39 @@ class GameTable {
   }
 
   firstRound () {
-    for (let i = 0; i < this.players.length; i++) {
-      this.players[i].requestCard(this.deck.dealCard())
-    }
+    this.players.forEach((player) => {
+      player.requestCard(this.deck.dealCard())
+    })
   }
 
   getCards (participant) {
     while (!participant.isDone()) {
-      participant.requestCard(this.deck.dealCard())
+      if (this.deck.cardsRemaining() > 1) {
+        participant.requestCard(this.deck.dealCard())
+      } else {
+        console.log('Cards remaining: ' + this.deck.cardsRemaining() + '. Moving cards from throwPile to deck')
+        this.addThrownCardsTodeck()
+        participant.requestCard(this.deck.dealCard())
+      }
     }
   }
 
   throwCards () {
-    const playerCards = this.currentPlayer.cardsOnHand.splice(0, this.currentPlayer.cardsOnHand.length)
-    const dealerCards = this.dealer.cardsOnHand.splice(0, this.dealer.cardsOnHand.length)
-    const cards = playerCards.concat(dealerCards)
-    for (let i = 0; i < cards.length; i++) {
-      this.throwPile.push(cards[i])
-    }
+    const cards = this.dealer.cardsOnHand.concat(this.currentPlayer.cardsOnHand)
+    this.dealer.cardsOnHand.length = 0
+    this.currentPlayer.cardsOnHand = 0
+
+    cards.forEach((card) => {
+      this.throwPile.push(card)
+    })
+  }
+
+  addThrownCardsTodeck () {
+    this.throwPile.forEach((card) => {
+      this.deck.newDeck.push(card)
+    })
+    this.deck.shuffleCards()
+    this.throwPile.length = 0
   }
 
   cardsToString (hand) {
@@ -103,10 +119,16 @@ class GameTable {
   }
 
   logWinners () {
+    console.log('----------------------------\n')
     console.log(`${this.currentPlayer.name}: ${this.cardsToString(this.currentPlayer.cardsOnHand)} (${this.currentPlayer.score})\n`)
-    console.log(`${this.dealer.name}: ${this.cardsToString(this.dealer.cardsOnHand)} (${this.dealer.score})\n`)
-    console.log(`${this.winner.name}: Wins! \n`)
-    console.log('--------------------------------------------------')
+    if (this.dealer.cardsOnHand.length === 0) {
+      console.log(`${this.dealer.name}   : -      \n`)
+    } else {
+      console.log(`${this.dealer.name}   : ${this.cardsToString(this.dealer.cardsOnHand)} (${this.dealer.score})\n`)
+    }
+
+    console.log(`\t${this.winner.name}: Wins!    \n`)
+    console.log('----------------------------\n')
   }
 }
 
