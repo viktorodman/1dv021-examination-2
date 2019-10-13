@@ -2,21 +2,21 @@
 const Deck = require('./Deck')
 const Dealer = require('./Dealer')
 const Player = require('./Player')
+const Participants = require('./Participants')
 
 class GameTable {
-  constructor (numberOfPlayers) {
-    this.numberOfPlayers = numberOfPlayers
+  constructor (numberOfPlayers, playerStopScore) {
     this.dealer = undefined
     this.currentPlayer = undefined
     this.deck = new Deck()
-    this.players = []
+    this.participants = new Participants(numberOfPlayers, playerStopScore)
     this.throwPile = []
     this.winner = undefined
     /* this.deck = new Deck() */
   }
 
   startGame () {
-    this.addPlayers()
+    this.participants.addPlayers()
     this.deck.createDeck()
     this.dealer = new Dealer(14)
     this.deck.shuffleCards()
@@ -25,8 +25,8 @@ class GameTable {
   }
 
   playAgainstDealer () {
-    for (let i = 0; i < this.players.length; i++) {
-      this.currentPlayer = this.players[i]
+    for (let i = 0; i < this.participants.players.length; i++) {
+      this.currentPlayer = this.participants.players[i]
       this.getCards(this.currentPlayer)
 
       if (!this.checkWin(this.currentPlayer, this.dealer)) {
@@ -57,13 +57,6 @@ class GameTable {
     return endGame
   }
 
-  addPlayers () {
-    // this.participants.push(new Dealer(14))
-    for (let i = 1; i <= this.numberOfPlayers; i++) {
-      this.players.push(new Player(`Player #${i}`, 15))
-    }
-  }
-
   compare () {
     if (this.currentPlayer.score === this.dealer.score) {
       this.winner = this.dealer
@@ -75,13 +68,13 @@ class GameTable {
   }
 
   firstRound () {
-    this.players.forEach((player) => {
+    this.participants.players.forEach((player) => {
       player.requestCard(this.deck.dealCard())
     })
   }
 
   getCards (participant) {
-    while (!participant.isDone()) {
+    do {
       if (this.deck.cardsRemaining() > 1) {
         participant.requestCard(this.deck.dealCard())
       } else {
@@ -90,6 +83,7 @@ class GameTable {
         participant.requestCard(this.deck.dealCard())
       }
     }
+    while (!participant.isDone())
   }
 
   throwCards () {

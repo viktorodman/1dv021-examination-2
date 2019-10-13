@@ -14,7 +14,9 @@ const dealerStopValue = 13 */
 
 // const participants = new Participants(numberOfPlayers, stopValues)
 
-const gameTable = new GameTable(numberOfPlayers)
+const playerStopScore = 15
+
+const gameTable = new GameTable(numberOfPlayers, playerStopScore)
 console.log(gameTable.startGame())
 /* gameTable.startGame() */
 // console.log(gameTable.startGame())
