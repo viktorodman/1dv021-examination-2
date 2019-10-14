@@ -36,6 +36,13 @@ class Deck {
     }
   }
 
+  addThrownCards (cards) {
+    cards.forEach((card) => {
+      this.newDeck.push(card)
+    })
+    this.shuffleCards()
+  }
+
   cardsRemaining () {
     return this.newDeck.length
   }

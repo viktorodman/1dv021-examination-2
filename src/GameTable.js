@@ -1,18 +1,18 @@
 'use strict'
 const Deck = require('./Deck')
 const Dealer = require('./Dealer')
-const Player = require('./Player')
+// const Player = require('./Player')
 const Participants = require('./Participants')
+const ThrowPile = require('./ThrowPile')
 
 class GameTable {
   constructor (numberOfPlayers, playerStopScore) {
     this.dealer = undefined
     this.currentPlayer = undefined
     this.deck = new Deck()
+    this.throwPile = new ThrowPile()
     this.participants = new Participants(numberOfPlayers, playerStopScore)
-    this.throwPile = []
     this.winner = undefined
-    /* this.deck = new Deck() */
   }
 
   startGame () {
@@ -37,11 +37,12 @@ class GameTable {
         }
       }
       this.logWinners()
-      this.throwCards()
+      // this.throwCards()
+      this.throwPile.addThrownCard(this.currentPlayer.throwCards(), this.dealer.throwCards())
       this.dealer.score = 0
     }
 
-    console.log(this.throwPile.length)
+    console.log(this.throwPile.thrownCards.length)
     console.log(this.deck.newDeck.length)
   }
 
@@ -79,29 +80,11 @@ class GameTable {
         participant.requestCard(this.deck.dealCard())
       } else {
         console.log('Cards remaining: ' + this.deck.cardsRemaining() + '. Moving cards from throwPile to deck')
-        this.addThrownCardsTodeck()
+        this.deck.addThrownCards(this.throwPile.moveCardsTodeck())
         participant.requestCard(this.deck.dealCard())
       }
     }
     while (!participant.isDone())
-  }
-
-  throwCards () {
-    const cards = this.dealer.cardsOnHand.concat(this.currentPlayer.cardsOnHand)
-    this.dealer.cardsOnHand.length = 0
-    this.currentPlayer.cardsOnHand = 0
-
-    cards.forEach((card) => {
-      this.throwPile.push(card)
-    })
-  }
-
-  addThrownCardsTodeck () {
-    this.throwPile.forEach((card) => {
-      this.deck.newDeck.push(card)
-    })
-    this.deck.shuffleCards()
-    this.throwPile.length = 0
   }
 
   cardsToString (hand) {

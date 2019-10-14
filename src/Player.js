@@ -9,7 +9,7 @@ class Player {
   }
 
   addToScore (card) {
-    if (card.rank === 'A' && this.score > 8) {
+    if (card.rank === 'A' && this.score > 7) {
       card.value = 1
     }
     this.score += card.value
@@ -46,10 +46,10 @@ class Player {
     return lose
   }
 
-  throwToPile () {
+  throwCards () {
     /* const cards = this.cardsOnHand.splice(0, this.cardsOnHand.length) */
-
-    const cards = this.cardsOnHand.pop()
+    const cards = this.cardsOnHand.slice()
+    this.cardsOnHand.length = 0
     return cards
   }
 }
