@@ -3,7 +3,7 @@ class ThrowPile {
     this.thrownCards = []
   }
 
-  addThrownCard (playerCards, dealerCards) {
+  addToThrowPile (playerCards, dealerCards) {
     const cards = playerCards.concat(dealerCards)
     cards.forEach((card) => {
       this.thrownCards.push(card)

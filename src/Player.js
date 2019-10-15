@@ -8,16 +8,23 @@ class Player {
     this.score = 0
   }
 
-  addToScore (card) {
-    if (card.rank === 'A' && this.score > 7) {
-      card.value = 1
+  addToScore () {
+    if (this.addCardValues() > 21) {
+      for (let i = 0; i < this.cardsOnHand.length; i++) {
+        if (this.cardsOnHand[i].rank === 'A') {
+          this.cardsOnHand[i].value = 1
+        }
+        if (this.addCardValues() <= 21) {
+          break
+        }
+      }
     }
-    this.score += card.value
+    this.score = this.addCardValues()
   }
 
   requestCard (card) {
     this.cardsOnHand.push(card)
-    this.addToScore(card)
+    this.addToScore()
   }
 
   isDone () {
@@ -51,6 +58,11 @@ class Player {
     const cards = this.cardsOnHand.slice()
     this.cardsOnHand.length = 0
     return cards
+  }
+
+  addCardValues () {
+    const currentScore = this.cardsOnHand.reduce((a, b) => a + b.value, 0)
+    return currentScore
   }
 }
 

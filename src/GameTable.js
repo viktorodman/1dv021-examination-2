@@ -1,13 +1,14 @@
 'use strict'
 const Deck = require('./Deck')
 const Dealer = require('./Dealer')
-// const Player = require('./Player')
 const Participants = require('./Participants')
 const ThrowPile = require('./ThrowPile')
+const Display = require('./Display')
 
 class GameTable {
   constructor (numberOfPlayers, playerStopScore) {
     this.dealer = undefined
+    this.display = undefined
     this.currentPlayer = undefined
     this.deck = new Deck()
     this.throwPile = new ThrowPile()
@@ -17,11 +18,19 @@ class GameTable {
 
   startGame () {
     this.participants.addPlayers()
-    this.deck.createDeck()
     this.dealer = new Dealer(14)
+    this.display = new Display()
+    this.deck.createDeck()
     this.deck.shuffleCards()
+
     this.firstRound()
-    return this.playAgainstDealer()
+  }
+
+  firstRound () {
+    this.participants.players.forEach((player) => {
+      player.requestCard(this.deck.dealCard())
+    })
+    this.playAgainstDealer()
   }
 
   playAgainstDealer () {
@@ -36,14 +45,31 @@ class GameTable {
           this.compare()
         }
       }
-      this.logWinners()
+      this.display.player = this.currentPlayer
+      this.display.dealer = this.dealer
+      this.display.winner = this.winner
+      this.display.displayReuslts()
+      // this.logWinners()
       // this.throwCards()
-      this.throwPile.addThrownCard(this.currentPlayer.throwCards(), this.dealer.throwCards())
+      this.throwPile.addToThrowPile(this.currentPlayer.throwCards(), this.dealer.throwCards())
       this.dealer.score = 0
     }
 
     console.log(this.throwPile.thrownCards.length)
     console.log(this.deck.newDeck.length)
+  }
+
+  getCards (participant) {
+    do {
+      if (this.deck.cardsRemaining() > 1) {
+        participant.requestCard(this.deck.dealCard())
+      } else {
+        console.log('Cards remaining: ' + this.deck.cardsRemaining() + '. Moving cards from throwPile to deck')
+        this.deck.addThrownCards(this.throwPile.moveCardsTodeck())
+        participant.requestCard(this.deck.dealCard())
+      }
+    }
+    while (!participant.isDone())
   }
 
   checkWin (p1, p2) {
@@ -66,25 +92,6 @@ class GameTable {
     } else {
       this.winner = this.currentPlayer
     }
-  }
-
-  firstRound () {
-    this.participants.players.forEach((player) => {
-      player.requestCard(this.deck.dealCard())
-    })
-  }
-
-  getCards (participant) {
-    do {
-      if (this.deck.cardsRemaining() > 1) {
-        participant.requestCard(this.deck.dealCard())
-      } else {
-        console.log('Cards remaining: ' + this.deck.cardsRemaining() + '. Moving cards from throwPile to deck')
-        this.deck.addThrownCards(this.throwPile.moveCardsTodeck())
-        participant.requestCard(this.deck.dealCard())
-      }
-    }
-    while (!participant.isDone())
   }
 
   cardsToString (hand) {
