@@ -9,6 +9,7 @@
 'use strict'
 
 const Card = require('./Card')
+
 /**
  * Represents a Deck of cards
  *

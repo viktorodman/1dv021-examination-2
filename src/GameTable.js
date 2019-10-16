@@ -32,7 +32,7 @@ class GameTable {
     this.currentPlayer = undefined
     this.deck = new Deck()
     this.throwPile = new ThrowPile()
-    this.participants = new Participants(numberOfPlayers, playerStopScore)
+    this.participants = new Participants(numberOfPlayers)
     this.winner = undefined
   }
 
@@ -42,7 +42,6 @@ class GameTable {
   startGame () {
     this.participants.addPlayers()
     this.dealer = new Dealer(14)
-    this.display = new Display(this.dealer)
     this.deck.createDeck()
     this.deck.shuffleCards()
 
@@ -62,7 +61,7 @@ class GameTable {
   }
 
   /**
-   * Each players play one at a time against the dealer
+   * Each players plays one at a time against the dealer
    *
    * @memberof GameTable
    */
@@ -88,8 +87,7 @@ class GameTable {
    * @memberof GameTable
    */
   nextPlayer () {
-    this.display.player = this.currentPlayer
-    this.display.winner = this.winner
+    this.display = new Display(this.winner, this.currentPlayer, this.dealer)
     this.display.displayReuslts()
 
     this.throwPile.addToThrowPile(this.currentPlayer.throwCards(), this.dealer.throwCards())
@@ -97,14 +95,14 @@ class GameTable {
   }
 
   /**
-   *  ???????
+   *  Gives the player or the dealar a new card until they request to stop
    *
-   * @param {{}} participant
+   * @param {{}} participant Dealer or Player
    * @memberof GameTable
    */
   getCards (participant) {
     do {
-      if (this.deck.cardsRemaining() > 1) {
+      if (this.deck.cardsRemaining() !== 1) {
         participant.requestCard(this.deck.dealCard())
       } else {
         this.deck.addThrownCards(this.throwPile.moveCardsTodeck())

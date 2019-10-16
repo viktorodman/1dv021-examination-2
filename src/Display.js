@@ -18,9 +18,9 @@ class Display {
    * @param {Dealer{}} dealer A dealer
    * @memberof Display
    */
-  constructor (dealer) {
-    this.winner = undefined
-    this.player = undefined
+  constructor (winner, player, dealer) {
+    this.winner = winner
+    this.player = player
     this.dealer = dealer
   }
 
@@ -37,7 +37,7 @@ class Display {
   }
 
   /**
-   * Creates a string from the passed cards
+   * Creates a string of the passed cards
    *
    * @param {Cards{}} hand A hand of cards
    * @returns {string} returns a string of playing cards
@@ -62,7 +62,7 @@ class Display {
    * @memberof Display
    */
   resultToString () {
-    const playerResult = `${this.player.name}: ${this.cardsToString(this.player.cardsOnHand)} (${this.player.score})\n\n`
+    const playerResult = `${this.player.name}: ${this.cardsToString(this.player.cardsOnHand)} (${this.player.score}) (StopValue: ${this.player.stopScore})\n\n`
     let dealerResult = ''
     if (this.dealer.score === 0) {
       dealerResult += `${this.dealer.name}: -      \n`
@@ -79,7 +79,7 @@ class Display {
    * @memberof Display
    */
   winnerToString () {
-    return `\t${this.winner.name}: Wins!    \n`
+    return `\t${'\x1b[32m'}${this.winner.name}${'\x1b[0m'}: Wins!    \n`
   }
 }
 

@@ -16,9 +16,8 @@ const Player = require('./Player')
  * @param {number} numberOfPlayers The amount of players participating
  * @param {number} stopScore The stop score for the players
  */
-function Participants (numberOfPlayers, stopScore) {
+function Participants (numberOfPlayers) {
   this.numberOfPlayers = numberOfPlayers
-  this.stopScore = stopScore
   this.players = []
 }
 
@@ -27,8 +26,14 @@ function Participants (numberOfPlayers, stopScore) {
  */
 Participants.prototype.addPlayers = function () {
   for (let i = 1; i <= this.numberOfPlayers; i++) {
-    this.players.push(new Player(`Player #${i}`, this.stopScore))
+    this.players.push(new Player(`Player #${i}`, this.generateStopValue()))
   }
+}
+
+Participants.prototype.generateStopValue = function () {
+  const min = 13
+  const max = 19
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 module.exports = Participants
