@@ -27,11 +27,12 @@ class Player {
   }
 
   /**
-   * Adds to this.score from the card values
+   * Checks for Aces in the hand and changes its values to 1
+   * if its more favorable for the player
    *
    * @memberof Player
    */
-  addToScore () {
+  checkForAces () {
     if (this.addCardValues() > 21) {
       for (let i = 0; i < this.cardsOnHand.length; i++) {
         if (this.cardsOnHand[i].rank === 'A') {
@@ -46,25 +47,25 @@ class Player {
   }
 
   /**
-   * Adds a card to this.cardsOnHand
+   * Adds a card to the players hand
    *
-   * @param {Card{}} card A playing card
+   * @param {Card{}} card A card
    * @memberof Player
    */
   requestCard (card) {
     this.cardsOnHand.push(card)
-    this.addToScore()
+    this.checkForAces()
   }
 
   /**
-   * Checks if player still wants to continue
+   * Checks if player wants another card
    *
    * @returns {boolean} returns true or false
    * @memberof Player
    */
   isDone () {
     let done = false
-    if (this.score < this.stopScore) {
+    if (this.score < this.stopScore && this.cardsOnHand.length < 5) {
       done = false
     } else {
       done = true
@@ -105,7 +106,7 @@ class Player {
   /**
    * Removes the cards from players hand
    *
-   * @returns {Cards[]}The removed cards
+   * @returns {Card[]} returns the removed cards
    * @memberof Player
    */
   throwCards () {
@@ -115,7 +116,7 @@ class Player {
   }
 
   /**
-   * Counts the sum of all card values
+   * Returns the sum of all card values
    *
    * @returns {number} return the sum of all card values
    * @memberof Player
@@ -123,6 +124,46 @@ class Player {
   addCardValues () {
     const currentScore = this.cardsOnHand.reduce((a, b) => a + b.value, 0)
     return currentScore
+  }
+
+  getScore () {
+    return this.score
+  }
+
+  /**
+   * Returns the name of the player
+   *
+   * @returns {string} returns the players name
+   * @memberof Player
+   */
+  getName () {
+    return this.name
+  }
+
+  /**
+   * Creates a string of the passed cards
+   *
+   * @returns {string} returns a string of playing cards
+   * @memberof Player
+   */
+  handToString () {
+    let cards = ''
+    if (this.cardsOnHand.length === 0) {
+      cards = '-'
+    } else {
+      this.cardsOnHand.forEach((card) => {
+        cards += card.cardToString()
+      })
+    }
+    return cards
+  }
+
+  scoreToString () {
+    let score = ''
+    if (this.score > 0) {
+      score = `(${this.score})`
+    }
+    return score
   }
 }
 

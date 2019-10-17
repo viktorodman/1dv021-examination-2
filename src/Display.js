@@ -14,8 +14,10 @@
  */
 class Display {
   /**
-   * Creates an instance of Display.
-   * @param {Dealer{}} dealer A dealer
+   *Creates an instance of Display.
+   * @param {Dealer{} or Player{}} winner
+   * @param {Player{}} Player
+   * @param {Dealer{}} Dealer
    * @memberof Display
    */
   constructor (winner, player, dealer) {
@@ -30,46 +32,31 @@ class Display {
    * @memberof Display
    */
   displayReuslts () {
-    const line = '----------------------------\n\n'
-    const result = `${line}${this.resultToString()}${this.winnerToString()}${line}`
+    const line = '__________________________________________'
+    /* const result = `${line}${this.resultToString()}${this.winnerToString()}${line}` */
+    const result = `${line}\n\n${this.resultToString()}${line}`
 
     console.log(result)
   }
 
   /**
-   * Creates a string of the passed cards
-   *
-   * @param {Cards{}} hand A hand of cards
-   * @returns {string} returns a string of playing cards
-   * @memberof Display
-   */
-  cardsToString (hand) {
-    let cards = ''
-    hand.forEach((card) => {
-      if (card.suit === '♥' || card.suit === '♦') {
-        cards += `${card.rank}${'\x1b[31m'}${card.suit}${'\x1b[0m'} `
-      } else {
-        cards += `${card.rank}${'\x1b[30m'}${card.suit}${'\x1b[0m'} `
-      }
-    })
-    return cards
-  }
-
-  /**
    * Creates a string that shows the result of the game
    *
-   * @returns {string} returns a string of the results
+   * @returns {string} returns a string of the result
    * @memberof Display
    */
   resultToString () {
-    const playerResult = `${this.player.name}: ${this.cardsToString(this.player.cardsOnHand)} (${this.player.score}) (StopValue: ${this.player.stopScore})\n\n`
-    let dealerResult = ''
-    if (this.dealer.score === 0) {
-      dealerResult += `${this.dealer.name}: -      \n`
+    return `${this.participantToString(this.player)}\n${this.participantToString(this.dealer)}\n\n${this.winnerToString()}\n`
+  }
+
+  participantToString (participant) {
+    let participantString
+    if (this.winner.getName() === participant.getName()) {
+      participantString = `${'\x1b[32m'}${participant.getName()}${'\x1b[0m'}${this.spacing(participant)}: ${participant.handToString()}  ${participant.scoreToString()} ${this.busted(participant)}`
     } else {
-      dealerResult += `${this.dealer.name}    : ${this.cardsToString(this.dealer.cardsOnHand)} (${this.dealer.score})\n\n`
+      participantString = `${participant.getName()}${this.spacing(participant)}: ${participant.handToString()}  ${participant.scoreToString()} ${this.busted(participant)}`
     }
-    return playerResult + dealerResult
+    return participantString
   }
 
   /**
@@ -79,7 +66,31 @@ class Display {
    * @memberof Display
    */
   winnerToString () {
-    return `\t${'\x1b[32m'}${this.winner.name}${'\x1b[0m'}: Wins!    \n`
+    return `\t${'\x1b[32m'}${this.winner.name}${'\x1b[0m'}: Wins!`
+  }
+
+  /**
+   *
+   *
+   * @param {Dealer{} or Player{}} participant
+   * @returns {string} Returns an empty string or the string ' BUSTED'
+   * @memberof Display
+   */
+  busted (participant) {
+    let busted = ''
+    if (participant.checkLose()) {
+      busted += `${'\x1b[31m'} BUSTED!${'\x1b[0m'}`
+    }
+    return busted
+  }
+
+  spacing (participant) {
+    const difference = this.player.getName().length - participant.getName().length
+    let stringSpacing = ''
+    for (let i = 0; i < difference; i++) {
+      stringSpacing += ' '
+    }
+    return stringSpacing
   }
 }
 

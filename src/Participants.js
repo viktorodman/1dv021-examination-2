@@ -14,7 +14,6 @@ const Player = require('./Player')
  *  Represents the Participants
  *
  * @param {number} numberOfPlayers The amount of players participating
- * @param {number} stopScore The stop score for the players
  */
 function Participants (numberOfPlayers) {
   this.numberOfPlayers = numberOfPlayers
@@ -22,14 +21,20 @@ function Participants (numberOfPlayers) {
 }
 
 /**
- * Adds players to this.players
+ * Adds new players
+ * @memberof Participants
  */
 Participants.prototype.addPlayers = function () {
   for (let i = 1; i <= this.numberOfPlayers; i++) {
     this.players.push(new Player(`Player #${i}`, this.generateStopValue()))
   }
 }
-
+/**
+ * Generates Stop Values
+ * https://www.w3schools.com/js/js_random.asp
+ * @returns {number} returns a stop value
+ * @memberof Participants
+ */
 Participants.prototype.generateStopValue = function () {
   const min = 13
   const max = 19

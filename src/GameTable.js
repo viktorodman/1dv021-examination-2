@@ -23,29 +23,44 @@ class GameTable {
   /**
    * Creates an instance of GameTable.
    * @param {number} numberOfPlayers Amount of players playing
-   * @param {number} playerStopScore A stop value for the players
+   * @param {number} dealerStopScore A stop value for the dealer
    * @memberof GameTable
    */
-  constructor (numberOfPlayers, playerStopScore) {
+  constructor (numberOfPlayers, dealerStopScore) {
+    this.dealerStopScore = dealerStopScore
+    this.numberOfPlayers = numberOfPlayers
     this.dealer = undefined
     this.display = undefined
     this.currentPlayer = undefined
-    this.deck = new Deck()
-    this.throwPile = new ThrowPile()
-    this.participants = new Participants(numberOfPlayers)
+    this.deck = undefined
+    this.throwPile = undefined
+    this.participants = undefined
     this.winner = undefined
+  }
+
+  /**
+   * Adds the needed components for the game
+   *
+   * @memberof GameTable
+   */
+  prepareGame () {
+    this.participants = new Participants(this.numberOfPlayers)
+    this.participants.addPlayers()
+    this.dealer = new Dealer(this.dealerStopScore)
+
+    this.throwPile = new ThrowPile()
+    this.deck = new Deck()
+    this.deck.createDeck()
+    this.deck.shuffleCards()
   }
 
   /**
    * Creates a new game
    */
   startGame () {
-    this.participants.addPlayers()
-    this.dealer = new Dealer(14)
-    this.deck.createDeck()
-    this.deck.shuffleCards()
-
+    this.prepareGame()
     this.firstRound()
+    this.playAgainstDealer()
   }
 
   /**
@@ -57,7 +72,6 @@ class GameTable {
     this.participants.players.forEach((player) => {
       player.requestCard(this.deck.dealCard())
     })
-    this.playAgainstDealer()
   }
 
   /**
@@ -66,19 +80,20 @@ class GameTable {
    * @memberof GameTable
    */
   playAgainstDealer () {
-    for (let i = 0; i < this.participants.players.length; i++) {
-      this.currentPlayer = this.participants.players[i]
-      this.getCards(this.currentPlayer)
+    this.participants.players.forEach((player) => {
+      this.currentPlayer = player
 
-      if (!this.checkWin(this.currentPlayer, this.dealer)) {
+      this.getCards(player)
+      if (!this.checkWin(player, this.dealer)) {
         this.getCards(this.dealer)
 
-        if (!this.checkWin(this.dealer, this.currentPlayer)) {
+        if (!this.checkWin(this.dealer, player)) {
           this.compare()
         }
       }
+      this.results()
       this.nextPlayer()
-    }
+    })
   }
 
   /**
@@ -86,10 +101,17 @@ class GameTable {
    *
    * @memberof GameTable
    */
-  nextPlayer () {
+  results () {
     this.display = new Display(this.winner, this.currentPlayer, this.dealer)
     this.display.displayReuslts()
+  }
 
+  /**
+   * Prepares the next round
+   *
+   * @memberof GameTable
+   */
+  nextPlayer () {
     this.throwPile.addToThrowPile(this.currentPlayer.throwCards(), this.dealer.throwCards())
     this.dealer.resetScore()
   }
@@ -97,12 +119,12 @@ class GameTable {
   /**
    *  Gives the player or the dealar a new card until they request to stop
    *
-   * @param {{}} participant Dealer or Player
+   * @param {Player{} or Dealer{}} participant Dealer or Player
    * @memberof GameTable
    */
   getCards (participant) {
     do {
-      if (this.deck.cardsRemaining() !== 1) {
+      if (this.deck.cardsRemaining() > 1) {
         participant.requestCard(this.deck.dealCard())
       } else {
         this.deck.addThrownCards(this.throwPile.moveCardsTodeck())
@@ -112,6 +134,16 @@ class GameTable {
     while (!participant.isDone())
   }
 
+  /**
+   *  Checks if the game should continue.
+   *  Returns false if the game should continue
+   *  Returns true if the game is done. Also sets the winner
+   *
+   * @param {Player{} or Dealer{}} p1
+   * @param {Player{} or Dealer{}} p2
+   * @returns {boolean} returns false if the game should continue
+   * @memberof GameTable
+   */
   checkWin (p1, p2) {
     let endGame = false
     if (p1.checkWin()) {
@@ -125,14 +157,14 @@ class GameTable {
   }
 
   /**
-   * Compare the player and the dealers score
+   * Compares the player and the dealers score and decides the winner
    *
    * @memberof GameTable
    */
   compare () {
-    if (this.currentPlayer.score === this.dealer.score) {
+    if (this.currentPlayer.getScore() === this.dealer.getScore()) {
       this.winner = this.dealer
-    } else if (this.currentPlayer.score < this.dealer.score) {
+    } else if (this.currentPlayer.getScore() < this.dealer.getScore()) {
       this.winner = this.dealer
     } else {
       this.winner = this.currentPlayer

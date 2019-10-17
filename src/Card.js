@@ -25,6 +25,16 @@ class Card {
     this.rank = rank
     this.value = value
   }
+
+  cardToString () {
+    let cardString = ''
+    if (this.suit === '♥' || this.suit === '♦') {
+      cardString += `${this.rank}${'\x1b[31m'}${this.suit}${'\x1b[0m'} `
+    } else {
+      cardString += `${this.rank}${'\x1b[30m'}${this.suit}${'\x1b[0m'} `
+    }
+    return cardString
+  }
 }
 
 module.exports = Card
