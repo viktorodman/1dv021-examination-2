@@ -58,9 +58,9 @@ class Display {
   participantToString (participant) {
     let participantString
     if (this.winner.getName() === participant.getName()) {
-      participantString = `${'\x1b[32m'}${participant.getName()}${'\x1b[0m'}${this.spacing(participant)}: ${participant.handToString()}  ${participant.scoreToString()} ${this.busted(participant)}`
+      participantString = `${'\x1b[32m'}${participant.getName()}${'\x1b[0m'}${this.spacing(participant)}: ${participant.hand.handToString()}  ${participant.scoreToString()} ${this.busted(participant)}`
     } else {
-      participantString = `${participant.getName()}${this.spacing(participant)}: ${participant.handToString()}  ${participant.scoreToString()} ${this.busted(participant)}`
+      participantString = `${participant.getName()}${this.spacing(participant)}: ${participant.hand.handToString()}  ${participant.scoreToString()} ${this.busted(participant)}`
     }
     return participantString
   }

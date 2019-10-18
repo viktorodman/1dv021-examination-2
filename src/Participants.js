@@ -41,4 +41,8 @@ Participants.prototype.generateStopValue = function () {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
+Participants.prototype.getPlayers = function () {
+  return this.players
+}
+
 module.exports = Participants

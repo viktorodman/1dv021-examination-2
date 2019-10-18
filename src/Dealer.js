@@ -8,6 +8,7 @@
 'use strict'
 
 const Player = require('./Player')
+const Hand = require('./Hand')
 
 /**
  * Represents a Dealer
@@ -23,7 +24,8 @@ class Dealer extends Player {
    */
   constructor (stopScore) {
     super('Dealer', stopScore)
-    this.cardsOnHand = []
+    /* this.cardsOnHand = [] */
+    this.hand = new Hand()
     this.score = 0
   }
 

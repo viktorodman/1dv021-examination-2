@@ -69,7 +69,7 @@ class GameTable {
    * @memberof GameTable
    */
   firstRound () {
-    this.participants.players.forEach((player) => {
+    this.participants.getPlayers().forEach((player) => {
       player.requestCard(this.deck.dealCard())
     })
   }
@@ -80,7 +80,7 @@ class GameTable {
    * @memberof GameTable
    */
   playAgainstDealer () {
-    this.participants.players.forEach((player) => {
+    this.participants.getPlayers().forEach((player) => {
       this.currentPlayer = player
 
       this.getCards(player)
