@@ -20,7 +20,13 @@ class Display {
    * @param {Dealer{}} Dealer
    * @memberof Display
    */
-  constructor (winner, player, dealer) {
+  constructor () {
+    this.winner = undefined
+    this.player = undefined
+    this.dealer = undefined
+  }
+
+  setNewResult (winner, player, dealer) {
     this.winner = winner
     this.player = player
     this.dealer = dealer

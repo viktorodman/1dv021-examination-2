@@ -26,6 +26,14 @@ class Card {
     this.value = value
   }
 
+  getRank () {
+    return this.rank
+  }
+
+  setValue (newValue) {
+    this.value = newValue
+  }
+
   cardToString () {
     let cardString = ''
     if (this.suit === '♥' || this.suit === '♦') {

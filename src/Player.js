@@ -35,8 +35,8 @@ class Player {
   checkForAces () {
     if (this.addCardValues() > 21) {
       for (let i = 0; i < this.cardsOnHand.length; i++) {
-        if (this.cardsOnHand[i].rank === 'A') {
-          this.cardsOnHand[i].value = 1
+        if (this.cardsOnHand[i].getRank() === 'A') {
+          this.cardsOnHand[i].setValue(1)
         }
         if (this.addCardValues() <= 21) {
           break
@@ -110,9 +110,9 @@ class Player {
    * @memberof Player
    */
   throwCards () {
-    const cards = this.cardsOnHand.slice()
-    this.cardsOnHand.length = 0
-    return cards
+    /* const cards = this.cardsOnHand.slice()
+    this.cardsOnHand.length = 0 */
+    return this.cardsOnHand.splice(0, this.cardsOnHand.length)
   }
 
   /**

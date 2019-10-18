@@ -47,7 +47,7 @@ class GameTable {
     this.participants = new Participants(this.numberOfPlayers)
     this.participants.addPlayers()
     this.dealer = new Dealer(this.dealerStopScore)
-
+    this.display = new Display()
     this.throwPile = new ThrowPile()
     this.deck = new Deck()
     this.deck.createDeck()
@@ -102,7 +102,7 @@ class GameTable {
    * @memberof GameTable
    */
   results () {
-    this.display = new Display(this.winner, this.currentPlayer, this.dealer)
+    this.display.setNewResult(this.winner, this.currentPlayer, this.dealer)
     this.display.displayReuslts()
   }
 
