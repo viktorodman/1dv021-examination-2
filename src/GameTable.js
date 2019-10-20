@@ -10,7 +10,7 @@
 
 const Deck = require('./Deck')
 const Dealer = require('./Dealer')
-const Participants = require('./Participants')
+const Players = require('./Players')
 const ThrowPile = require('./ThrowPile')
 const Display = require('./Display')
 
@@ -30,11 +30,11 @@ class GameTable {
     this.dealerStopScore = dealerStopScore
     this.numberOfPlayers = numberOfPlayers
     this.dealer = undefined
-    this.display = undefined
+    this.display = new Display()
     this.currentPlayer = undefined
     this.deck = undefined
-    this.throwPile = undefined
-    this.participants = undefined
+    this.throwPile = new ThrowPile()
+    this.players = undefined
     this.winner = undefined
   }
 
@@ -44,11 +44,9 @@ class GameTable {
    * @memberof GameTable
    */
   prepareGame () {
-    this.participants = new Participants(this.numberOfPlayers)
-    this.participants.addPlayers()
+    this.players = new Players(this.numberOfPlayers)
+    this.players.addPlayers()
     this.dealer = new Dealer(this.dealerStopScore)
-    this.display = new Display()
-    this.throwPile = new ThrowPile()
     this.deck = new Deck()
     this.deck.createDeck()
     this.deck.shuffleCards()
@@ -69,7 +67,7 @@ class GameTable {
    * @memberof GameTable
    */
   firstRound () {
-    this.participants.getPlayers().forEach((player) => {
+    this.players.getPlayers().forEach((player) => {
       player.requestCard(this.deck.dealCard())
     })
   }
@@ -80,19 +78,18 @@ class GameTable {
    * @memberof GameTable
    */
   playAgainstDealer () {
-    this.participants.getPlayers().forEach((player) => {
+    this.players.getPlayers().forEach((player) => {
       this.currentPlayer = player
 
       this.getCards(player)
       if (!this.checkWin(player, this.dealer)) {
         this.getCards(this.dealer)
-
         if (!this.checkWin(this.dealer, player)) {
           this.compare()
         }
       }
       this.results()
-      this.nextPlayer()
+      this.nextRound()
     })
   }
 
@@ -111,7 +108,7 @@ class GameTable {
    *
    * @memberof GameTable
    */
-  nextPlayer () {
+  nextRound () {
     this.throwPile.addToThrowPile(this.currentPlayer.throwCards(), this.dealer.throwCards())
     this.dealer.resetScore()
   }
@@ -162,9 +159,9 @@ class GameTable {
    * @memberof GameTable
    */
   compare () {
-    if (this.currentPlayer.getScore() === this.dealer.getScore()) {
+    if (this.currentPlayer.score.getScore() === this.dealer.score.getScore()) {
       this.winner = this.dealer
-    } else if (this.currentPlayer.getScore() < this.dealer.getScore()) {
+    } else if (this.currentPlayer.score.getScore() < this.dealer.score.getScore()) {
       this.winner = this.dealer
     } else {
       this.winner = this.currentPlayer

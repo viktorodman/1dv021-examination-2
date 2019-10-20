@@ -1,7 +1,7 @@
 /**
- * Module for Participants
+ * Module for Players
  *
- * @module src/Participants
+ * @module src/Players
  * @author Viktor Ödman
  * @version 1.0.0
 */
@@ -11,11 +11,11 @@
 const Player = require('./Player')
 
 /**
- *  Represents the Participants
+ *  Represents the Players
  *
  * @param {number} numberOfPlayers The amount of players participating
  */
-function Participants (numberOfPlayers) {
+function Players (numberOfPlayers) {
   this.numberOfPlayers = numberOfPlayers
   this.players = []
 }
@@ -24,7 +24,7 @@ function Participants (numberOfPlayers) {
  * Adds new players
  * @memberof Participants
  */
-Participants.prototype.addPlayers = function () {
+Players.prototype.addPlayers = function () {
   for (let i = 1; i <= this.numberOfPlayers; i++) {
     this.players.push(new Player(`Player #${i}`, this.generateStopValue()))
   }
@@ -35,14 +35,14 @@ Participants.prototype.addPlayers = function () {
  * @returns {number} returns a stop value
  * @memberof Participants
  */
-Participants.prototype.generateStopValue = function () {
+Players.prototype.generateStopValue = function () {
   const min = 13
   const max = 19
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-Participants.prototype.getPlayers = function () {
+Players.prototype.getPlayers = function () {
   return this.players
 }
 
-module.exports = Participants
+module.exports = Players

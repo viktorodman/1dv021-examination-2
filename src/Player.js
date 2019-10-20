@@ -5,9 +5,11 @@
  * @author Viktor Ödman
  * @version 1.0.0
 */
+
 'use strict'
 
 const Hand = require('./Hand')
+const Score = require('./Score')
 
 /**
  * Represents a Player
@@ -24,9 +26,8 @@ class Player {
   constructor (name, stopScore) {
     this.name = name
     this.stopScore = stopScore
-    /* this.cardsOnHand = [] */
     this.hand = new Hand()
-    this.score = 0
+    this.score = new Score()
   }
 
   /**
@@ -46,7 +47,7 @@ class Player {
         }
       }
     }
-    this.score = this.addCardValues()
+    this.score.setScore(this.addCardValues())
   }
 
   /**
@@ -68,7 +69,7 @@ class Player {
    */
   isDone () {
     let done = false
-    if (this.score < this.stopScore && this.hand.getLength() < 5) {
+    if (this.score.getScore() < this.stopScore && this.hand.getLength() < 5) {
       done = false
     } else {
       done = true
@@ -84,9 +85,9 @@ class Player {
    */
   checkWin () {
     let win = false
-    if (this.score === 21) {
+    if (this.score.getScore() === 21) {
       win = true
-    } else if (this.score <= 21 && this.hand.getLength() === 5) {
+    } else if (this.score.getScore() <= 21 && this.hand.getLength() === 5) {
       win = true
     }
     return win
@@ -100,7 +101,7 @@ class Player {
    */
   checkLose () {
     let lose = false
-    if (this.score > 21) {
+    if (this.score.getScore() > 21) {
       lose = true
     }
     return lose
@@ -113,8 +114,6 @@ class Player {
    * @memberof Player
    */
   throwCards () {
-    /* const cards = this.cardsOnHand.slice()
-    this.cardsOnHand.length = 0 */
     return this.hand.emptyHand()
   }
 
@@ -128,44 +127,12 @@ class Player {
     return this.hand.getCards().reduce((a, b) => a + b.value, 0)
   }
 
-  getScore () {
-    return this.score
-  }
-
-  /**
-   * Returns the name of the player
-   *
-   * @returns {string} returns the players name
-   * @memberof Player
-   */
   getName () {
     return this.name
   }
 
-  /**
-   * Creates a string of the passed cards
-   *
-   * @returns {string} returns a string of playing cards
-   * @memberof Player
-   */
-  /* handToString () {
-    let cards = ''
-    if (this.cardsOnHand.length === 0) {
-      cards = '-'
-    } else {
-      this.cardsOnHand.forEach((card) => {
-        cards += card.cardToString()
-      })
-    }
-    return cards
-  } */
-
-  scoreToString () {
-    let score = ''
-    if (this.score > 0) {
-      score = `(${this.score})`
-    }
-    return score
+  getStopScore () {
+    return this.stopScore
   }
 }
 
