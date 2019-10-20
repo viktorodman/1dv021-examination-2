@@ -8,6 +8,8 @@
 
 'use strict'
 
+const Color = require('./Color')
+
 /**
  * Represents a card
  * @class Card
@@ -24,6 +26,7 @@ class Card {
     this.suit = suit
     this.rank = rank
     this.value = value
+    this.color = new Color()
   }
 
   getRank () {
@@ -35,13 +38,7 @@ class Card {
   }
 
   cardToString () {
-    let cardString = ''
-    if (this.suit === '♥' || this.suit === '♦') {
-      cardString += `${this.rank}${'\x1b[31m'}${this.suit}${'\x1b[0m'} `
-    } else {
-      cardString += `${this.rank}${'\x1b[30m'}${this.suit}${'\x1b[0m'} `
-    }
-    return cardString
+    return `${this.rank}${this.color.addSuitColor(this.suit)} `
   }
 }
 

@@ -5,7 +5,10 @@
  * @author Viktor Ödman
  * @version 1.0.0
 */
+
 'use strict'
+
+const Color = require('./Color')
 
 /**
  * Represents a display
@@ -30,6 +33,7 @@ class Display {
     this.winner = winner
     this.player = player
     this.dealer = dealer
+    this.color = new Color()
   }
 
   /**
@@ -40,24 +44,20 @@ class Display {
   displayReuslts () {
     console.log(
 `
-${this.player.hand.getCards()}
-┌${this.boxLine()}
-│${this.participantToString(this.player)}
-${this.participantToString(this.player).length}
-│${this.participantToString(this.dealer)}
-${this.participantToString(this.dealer).length}
-├${this.boxLine()}
-│${this.winnerToString()} Wins
-└${this.boxLine()}
+
+${this.participantToString(this.player)}
+${this.participantToString(this.dealer)}
+
+${this.winnerToString()} Wins
 `)
   }
 
   participantToString (participant) {
     let participantString
     if (this.winner.getName() === participant.getName()) {
-      participantString = `${this.winnerToString()}${this.nameSpacing(participant)}: ${participant.hand.handToString()}${participant.score.scoreToString()} ${this.busted(participant)}`
+      participantString = `${this.winnerToString()}${this.nameSpacing(participant)}${': '}${participant.hand.handToString()}${participant.score.scoreToString()}${this.busted(participant)}`
     } else {
-      participantString = `${participant.getName()}${this.nameSpacing(participant)}: ${participant.hand.handToString()}${participant.score.scoreToString()} ${this.busted(participant)}`
+      participantString = `${participant.getName()}${this.nameSpacing(participant)}${': '}${participant.hand.handToString()}${participant.score.scoreToString()}${this.busted(participant)}`
     }
     return participantString
   }
@@ -69,7 +69,7 @@ ${this.participantToString(this.dealer).length}
    * @memberof Display
    */
   winnerToString () {
-    return `${'\x1b[32m'}${this.winner.name}${'\x1b[0m'}`
+    return this.color.addWinnerColor(this.winner)
   }
 
   /**
@@ -82,7 +82,7 @@ ${this.participantToString(this.dealer).length}
   busted (participant) {
     let busted = ''
     if (participant.checkLose()) {
-      busted += `${'\x1b[31m'}BUSTED!${'\x1b[0m'}`
+      busted = this.color.addBustedColor(' BUSTED!')
     }
     return busted
   }
@@ -91,30 +91,9 @@ ${this.participantToString(this.dealer).length}
     const difference = this.player.getName().length - participant.getName().length
     let stringSpacing = ''
     for (let i = 0; i < difference; i++) {
-      stringSpacing += '\xa0'
+      stringSpacing += ' '
     }
     return stringSpacing
-  }
-
-  boxLine () {
-    let line = ''
-    /*  if (this.participantToString(this.player).length > this.participantToString(this.dealer).length) {
-      for (let i = 0; i < this.participantToString(this.player).length; i++) {
-        line += '─'
-      }
-    } else if (this.participantToString(this.dealer).length > this.participantToString(this.player).length) {
-      for (let i = 0; i < this.participantToString(this.dealer).length; i++) {
-        line += '─'
-      }
-    } else {
-      for (let i = 0; i < this.participantToString(this.player).length; i++) {
-        line += '─'
-      }
-    } */
-    for (let i = 0; i < this.player.getName().length + this.player.hand.handToString().length; i++) {
-      line += '─'
-    }
-    return line
   }
 }
 
