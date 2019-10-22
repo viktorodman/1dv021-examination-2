@@ -26,7 +26,6 @@ class Card {
     this.suit = suit
     this.rank = rank
     this.value = value
-    this.color = new Color()
   }
 
   getRank () {
@@ -38,7 +37,8 @@ class Card {
   }
 
   cardToString () {
-    return `${this.rank}${this.color.addSuitColor(this.suit)} `
+    const color = new Color()
+    return `${this.rank}${color.addSuitColor(this.suit)} `
   }
 }
 

@@ -36,8 +36,6 @@ class ThrowPile {
    * @memberof ThrowPile
    */
   moveCardsTodeck () {
-    /* const cards = this.thrownCards.slice()
-    this.thrownCards.length = 0 */
     return this.thrownCards.splice(0, this.thrownCards.length)
   }
 }

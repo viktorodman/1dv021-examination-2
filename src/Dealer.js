@@ -8,8 +8,6 @@
 'use strict'
 
 const Player = require('./Player')
-const Hand = require('./Hand')
-const Score = require('./Score')
 
 /**
  * Represents a Dealer
@@ -25,8 +23,6 @@ class Dealer extends Player {
    */
   constructor (stopScore) {
     super('Dealer', stopScore)
-    this.hand = new Hand()
-    this.score = new Score()
   }
 
   /**
@@ -34,8 +30,10 @@ class Dealer extends Player {
    *
    * @memberof Dealer
    */
-  resetScore () {
+  resetDealer () {
     this.score.setScore(0)
+    this.busted = undefined
+    this.winner = undefined
   }
 }
 module.exports = Dealer

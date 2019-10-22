@@ -18,11 +18,27 @@ const Player = require('./Player')
 function Players (numberOfPlayers) {
   this.numberOfPlayers = numberOfPlayers
   this.players = []
+  this.minStopValue = 13
+  this.maxStopValue = 19
 }
+
+Object.defineProperty(Players.prototype, 'numberOfPlayers', {
+  get: function () {
+    return this._numberOfPlayers
+  },
+  set: function (value) {
+    if (value < 1 || value >= 30) {
+      throw new Error('Wrong number of players: Number of players must be between 1-30 Players')
+    } if (isNaN(value)) {
+      throw new Error('Number of players must be a number')
+    }
+    this._numberOfPlayers = value
+  }
+})
 
 /**
  * Adds new players
- * @memberof Participants
+ * @memberof Players
  */
 Players.prototype.addPlayers = function () {
   for (let i = 1; i <= this.numberOfPlayers; i++) {
@@ -33,14 +49,18 @@ Players.prototype.addPlayers = function () {
  * Generates Stop Values
  * https://www.w3schools.com/js/js_random.asp
  * @returns {number} returns a stop value
- * @memberof Participants
+ * @memberof Players
  */
 Players.prototype.generateStopValue = function () {
-  const min = 13
-  const max = 19
-  return Math.floor(Math.random() * (max - min + 1)) + min
+  return Math.floor(Math.random() * (this.maxStopValue - this.minStopValue + 1)) + this.minStopValue
 }
 
+/**
+ * Generates Stop Values
+ * https://www.w3schools.com/js/js_random.asp
+ * @returns {Player[]} returns a stop value
+ * @memberof Players
+ */
 Players.prototype.getPlayers = function () {
   return this.players
 }

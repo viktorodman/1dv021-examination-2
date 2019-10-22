@@ -22,6 +22,8 @@ class Deck {
    */
   constructor () {
     this.newDeck = []
+    this.suits = ['♣', '♦', '♥', '♠']
+    this.ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Kn', 'Q', 'K', 'A']
   }
 
   /**
@@ -30,10 +32,8 @@ class Deck {
    * @memberof Deck
    */
   createDeck () {
-    const suits = ['♣', '♦', '♥', '♠']
-    const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Kn', 'Q', 'K', 'A']
-    suits.forEach((suit) => {
-      ranks.forEach((rank, value) => {
+    this.suits.forEach((suit) => {
+      this.ranks.forEach((rank, value) => {
         this.newDeck.push(new Card(suit, rank, value + 2))
       })
     })
@@ -74,7 +74,7 @@ class Deck {
   /**
    * Adds cards to the deck
    *
-   * @param {Card[]} cards thrown cards
+   * @param {Card{}[]} cards thrown cards
    * @memberof Deck
    */
   addThrownCards (cards) {

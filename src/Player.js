@@ -10,6 +10,7 @@
 
 const Hand = require('./Hand')
 const Score = require('./Score')
+const Color = require('./Color')
 
 /**
  * Represents a Player
@@ -28,6 +29,10 @@ class Player {
     this.stopScore = stopScore
     this.hand = new Hand()
     this.score = new Score()
+    this.winner = undefined
+    this.busted = undefined
+    this.maxScore = 21
+    this.maxAmountOfCards = 5
   }
 
   /**
@@ -37,12 +42,12 @@ class Player {
    * @memberof Player
    */
   checkForAces () {
-    if (this.addCardValues() > 21) {
+    if (this.addCardValues() > this.maxScore) {
       for (let i = 0; i < this.hand.getLength(); i++) {
         if (this.hand.getCards()[i].getRank() === 'A') {
           this.hand.getCards()[i].setValue(1)
         }
-        if (this.addCardValues() <= 21) {
+        if (this.addCardValues() <= this.maxScore) {
           break
         }
       }
@@ -53,7 +58,7 @@ class Player {
   /**
    * Adds a card to the players hand
    *
-   * @param {Card{}} card A card
+   * @param {Card} card A card
    * @memberof Player
    */
   requestCard (card) {
@@ -69,7 +74,7 @@ class Player {
    */
   isDone () {
     let done = false
-    if (this.score.getScore() < this.stopScore && this.hand.getLength() < 5) {
+    if (this.score.getScore() < this.stopScore && this.hand.getLength() < this.maxAmountOfCards) {
       done = false
     } else {
       done = true
@@ -84,13 +89,13 @@ class Player {
    * @memberof Player
    */
   checkWin () {
-    let win = false
-    if (this.score.getScore() === 21) {
-      win = true
-    } else if (this.score.getScore() <= 21 && this.hand.getLength() === 5) {
-      win = true
+    /* let win = false */
+    if (this.score.getScore() === this.maxScore) {
+      this.winner = true
+    } else if (this.score.getScore() <= this.maxScore && this.hand.getLength() === this.maxAmountOfCards) {
+      this.winner = true
     }
-    return win
+    return this.winner
   }
 
   /**
@@ -99,12 +104,29 @@ class Player {
    * @returns {boolean} returns true or false
    * @memberof Player
    */
-  checkLose () {
-    let lose = false
-    if (this.score.getScore() > 21) {
-      lose = true
+  checkBusted () {
+    /* let busted = false */
+    if (this.score.getScore() > this.maxScore) {
+      this.busted = true
     }
-    return lose
+    return this.busted
+  }
+
+  setBusted () {
+    this.busted = true
+  }
+
+  /**
+   *
+   *
+   * @memberof Player
+   */
+  setWin () {
+    this.winner = true
+  }
+
+  getWin () {
+    return this.winner
   }
 
   /**
@@ -133,6 +155,30 @@ class Player {
 
   getStopScore () {
     return this.stopScore
+  }
+
+  nameToString () {
+    const color = new Color()
+    let string
+    if (this.winner) {
+      string = color.greenString(this.getName())
+    } else {
+      string = this.getName()
+    }
+    return string
+  }
+
+  toString () {
+    const color = new Color()
+    let playerString = ''
+    if (this.winner) {
+      playerString = `${this.nameToString()}: ${this.hand.handToString()} (${this.score.getScore()})`
+    } else if (this.busted) {
+      playerString = `${this.nameToString()}: ${this.hand.handToString()} (${this.score.getScore()}) ${color.redString('BUSTED!')}`
+    } else {
+      playerString = `${this.nameToString()}: ${this.hand.handToString()} (${this.score.getScore()})`
+    }
+    return playerString
   }
 }
 

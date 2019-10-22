@@ -9,8 +9,12 @@
 
 const GameTable = require('./src/GameTable')
 
-const numberOfPlayers = 13
+const numberOfPlayers = NaN
 const dealerStopValue = 15
-
-const gameTable = new GameTable(numberOfPlayers, dealerStopValue)
-gameTable.startGame()
+try {
+  const gameTable = new GameTable(numberOfPlayers, dealerStopValue)
+  gameTable.startGame()
+} catch (e) {
+  console.error(e.message)
+}
+/* const gameTable = new GameTable(numberOfPlayers, dealerStopValue) */

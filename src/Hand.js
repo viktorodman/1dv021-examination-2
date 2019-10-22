@@ -25,7 +25,7 @@ class Hand {
   /**
    * Adds cards to the hand
    *
-   * @param {Card{}} card
+   * @param {Card} card
    * @memberof Hand
    */
   addCard (card) {
