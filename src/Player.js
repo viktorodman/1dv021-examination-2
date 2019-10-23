@@ -35,6 +35,17 @@ class Player {
     this.maxAmountOfCards = 5
   }
 
+  get stopScore () {
+    return this._stopScore
+  }
+
+  set stopScore (stopScore) {
+    if (stopScore < 1 || stopScore > 22) {
+      throw new Error('Stop Score must be greater than 2 or less than 21')
+    }
+    this._stopScore = stopScore
+  }
+
   /**
    * Checks for Aces in the hand and changes its values to 1
    * if its more favorable for the player
@@ -89,7 +100,6 @@ class Player {
    * @memberof Player
    */
   checkWin () {
-    /* let win = false */
     if (this.score.getScore() === this.maxScore) {
       this.winner = true
     } else if (this.score.getScore() <= this.maxScore && this.hand.getLength() === this.maxAmountOfCards) {
@@ -105,7 +115,6 @@ class Player {
    * @memberof Player
    */
   checkBusted () {
-    /* let busted = false */
     if (this.score.getScore() > this.maxScore) {
       this.busted = true
     }
@@ -159,24 +168,18 @@ class Player {
 
   nameToString () {
     const color = new Color()
-    let string
+    let string = this.getName()
     if (this.winner) {
-      string = color.greenString(this.getName())
-    } else {
-      string = this.getName()
+      string = color.green(this.getName())
     }
     return string
   }
 
   toString () {
     const color = new Color()
-    let playerString = ''
-    if (this.winner) {
-      playerString = `${this.nameToString()}: ${this.hand.handToString()} (${this.score.getScore()})`
-    } else if (this.busted) {
-      playerString = `${this.nameToString()}: ${this.hand.handToString()} (${this.score.getScore()}) ${color.redString('BUSTED!')}`
-    } else {
-      playerString = `${this.nameToString()}: ${this.hand.handToString()} (${this.score.getScore()})`
+    let playerString = `${this.nameToString()}: ${this.hand.handToString()} (${this.score.getScore()})`
+    if (this.busted) {
+      playerString = `${this.nameToString()}: ${this.hand.handToString()} (${this.score.getScore()}) ${color.red('BUSTED!')}`
     }
     return playerString
   }

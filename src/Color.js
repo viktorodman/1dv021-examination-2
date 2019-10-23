@@ -19,16 +19,16 @@ class Color {
    * @memberof Color
    */
   constructor () {
-    this.red = '\x1b[31m'
-    this.black = '\x1b[30m'
-    this.green = '\x1b[32m'
+    this.redColor = '\x1b[31m'
+    this.blackColor = '\x1b[30m'
+    this.greenColor = '\x1b[32m'
     this.stopColor = '\x1b[0m'
     this.hearts = '♥'
     this.diamonds = '♦'
   }
 
   /**
-   * Adds color the the suit of a card
+   * Adds color to the suit of a card
    *
    * @param {string} suit suit of a card
    * @returns {string} returns a colored version of the passed string
@@ -37,9 +37,9 @@ class Color {
   addSuitColor (suit) {
     let coloredSuit
     if (suit === this.hearts || suit === this.diamonds) {
-      coloredSuit = `${this.red}${suit}${this.stopColor}`
+      coloredSuit = this.red(suit)
     } else {
-      coloredSuit = `${this.black}${suit}${this.stopColor}`
+      coloredSuit = this.black(suit)
     }
     return coloredSuit
   }
@@ -51,8 +51,8 @@ class Color {
    * @returns {string} The passed string but in a green color
    * @memberof Color
    */
-  greenString (anyString) {
-    return `${this.green}${anyString}${this.stopColor}`
+  green (text) {
+    return `${this.greenColor}${text}${this.stopColor}`
   }
 
   /**
@@ -62,8 +62,12 @@ class Color {
    * @returns {string} the passed string but in the color red
    * @memberof Color
    */
-  redString (text) {
-    return `${this.red}${text}${this.stopColor}`
+  red (text) {
+    return `${this.redColor}${text}${this.stopColor}`
+  }
+
+  black (text) {
+    return `${this.blackColor}${text}${this.stopColor}`
   }
 }
 

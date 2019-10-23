@@ -55,12 +55,6 @@ Players.prototype.generateStopValue = function () {
   return Math.floor(Math.random() * (this.maxStopValue - this.minStopValue + 1)) + this.minStopValue
 }
 
-/**
- * Generates Stop Values
- * https://www.w3schools.com/js/js_random.asp
- * @returns {Player[]} returns a stop value
- * @memberof Players
- */
 Players.prototype.getPlayers = function () {
   return this.players
 }
