@@ -35,6 +35,7 @@ class GameTable {
     this.currentPlayer = undefined
     this.deck = undefined
     this.throwPile = new ThrowPile()
+    this.winner = undefined
   }
 
   /**
@@ -142,13 +143,32 @@ class GameTable {
    */
   endRound (p1, p2) {
     let endGame = false
-    if (p1.checkWin()) {
+    if (this.checkWin(p1)) {
+      this.winner = p1
       endGame = true
-    } else if (p1.checkBusted()) {
+    } else if (this.checkBusted(p1)) {
+      this.winner = p2
       endGame = true
-      p2.setWin()
     }
     return endGame
+  }
+
+  checkWin (p1) {
+    let newWinner = false
+    if (p1.score.getScore() === p1.score.getMaxScore()) {
+      newWinner = true
+    } else if (p1.score.getScore() <= p1.score.getMaxScore() && p1.hand.getLength() === p1.hand.getMaxAmountOfCards()) {
+      newWinner = true
+    }
+    return newWinner
+  }
+
+  checkBusted (p1) {
+    let busted = false
+    if (p1.score.getScore() > p1.score.getMaxScore()) {
+      busted = true
+    }
+    return busted
   }
 
   /**
@@ -158,11 +178,11 @@ class GameTable {
    */
   compareCards () {
     if (this.currentPlayer.score.getScore() === this.dealer.score.getScore()) {
-      this.dealer.setWin()
+      this.winner = this.dealer
     } else if (this.currentPlayer.score.getScore() < this.dealer.score.getScore()) {
-      this.dealer.setWin()
+      this.winner = this.dealer
     } else {
-      this.currentPlayer.setWin()
+      this.winner = this.currentPlayer
     }
   }
 }

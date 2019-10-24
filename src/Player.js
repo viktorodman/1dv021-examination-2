@@ -29,9 +29,7 @@ class Player {
     this.stopScore = stopScore
     this.hand = new Hand()
     this.score = new Score()
-    this.winner = undefined
     this.busted = undefined
-    this.maxScore = 21
     this.maxAmountOfCards = 5
   }
 
@@ -53,12 +51,12 @@ class Player {
    * @memberof Player
    */
   checkForAces () {
-    if (this.addCardValues() > this.maxScore) {
+    if (this.addCardValues() > this.score.getMaxScore()) {
       for (let i = 0; i < this.hand.getLength(); i++) {
         if (this.hand.getCards()[i].getRank() === 'A') {
           this.hand.getCards()[i].setValue(1)
         }
-        if (this.addCardValues() <= this.maxScore) {
+        if (this.addCardValues() <= this.score.getMaxScore()) {
           break
         }
       }
@@ -85,57 +83,12 @@ class Player {
    */
   isDone () {
     let done = false
-    if (this.score.getScore() < this.stopScore && this.hand.getLength() < this.maxAmountOfCards) {
+    if (this.score.getScore() < this.stopScore && this.hand.getLength() < this.hand.getMaxAmountOfCards()) {
       done = false
     } else {
       done = true
     }
     return done
-  }
-
-  /**
-   * Checks if the player won
-   *
-   * @returns {boolean} return true or false
-   * @memberof Player
-   */
-  checkWin () {
-    if (this.score.getScore() === this.maxScore) {
-      this.winner = true
-    } else if (this.score.getScore() <= this.maxScore && this.hand.getLength() === this.maxAmountOfCards) {
-      this.winner = true
-    }
-    return this.winner
-  }
-
-  /**
-   * Checks if the player lost
-   *
-   * @returns {boolean} returns true or false
-   * @memberof Player
-   */
-  checkBusted () {
-    if (this.score.getScore() > this.maxScore) {
-      this.busted = true
-    }
-    return this.busted
-  }
-
-  setBusted () {
-    this.busted = true
-  }
-
-  /**
-   *
-   *
-   * @memberof Player
-   */
-  setWin () {
-    this.winner = true
-  }
-
-  getWin () {
-    return this.winner
   }
 
   /**

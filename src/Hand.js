@@ -20,6 +20,7 @@ class Hand {
    */
   constructor () {
     this.cardsOnHand = []
+    this.maxAmountOfCards = 5
   }
 
   /**
@@ -50,6 +51,10 @@ class Hand {
    */
   getCards () {
     return this.cardsOnHand
+  }
+
+  getMaxAmountOfCards () {
+    return this.maxAmountOfCards
   }
 
   /**

@@ -7,6 +7,7 @@
 class Score {
   constructor () {
     this.score = 0
+    this.maxScore = 21
   }
 
   /**
@@ -29,6 +30,10 @@ class Score {
       score = `(${this.score})`
     }
     return score
+  }
+
+  getMaxScore () {
+    return this.maxScore
   }
 }
 
