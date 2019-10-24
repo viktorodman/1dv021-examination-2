@@ -29,8 +29,6 @@ class Player {
     this.stopScore = stopScore
     this.hand = new Hand()
     this.score = new Score()
-    this.busted = undefined
-    this.maxAmountOfCards = 5
   }
 
   get stopScore () {
@@ -117,24 +115,6 @@ class Player {
 
   getStopScore () {
     return this.stopScore
-  }
-
-  nameToString () {
-    const color = new Color()
-    let string = this.getName()
-    if (this.winner) {
-      string = color.green(this.getName())
-    }
-    return string
-  }
-
-  toString () {
-    const color = new Color()
-    let playerString = `${this.nameToString()}: ${this.hand.handToString()} (${this.score.getScore()})`
-    if (this.busted) {
-      playerString = `${this.nameToString()}: ${this.hand.handToString()} (${this.score.getScore()}) ${color.red('BUSTED!')}`
-    }
-    return playerString
   }
 }
 

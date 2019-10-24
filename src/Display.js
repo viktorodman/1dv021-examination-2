@@ -8,6 +8,8 @@
 
 'use strict'
 
+const Color = require('./Color')
+
 /**
  * Represents a display
  *
@@ -24,6 +26,9 @@ class Display {
   constructor () {
     this.player = undefined
     this.dealer = undefined
+    this.winner = undefined
+    this.busted = undefined
+    this.color = new Color()
   }
 
   /**
@@ -34,9 +39,11 @@ class Display {
    * @param {Dealer{}} dealer A Dealer
    * @memberof Display
    */
-  setNewResult (player, dealer) {
+  setNewResult (player, dealer, winner, busted) {
     this.player = player
     this.dealer = dealer
+    this.winner = winner
+    this.busted = busted
   }
 
   /**
@@ -48,8 +55,8 @@ class Display {
     console.log(
 ` Player Stop Score: ${this.player.getStopScore()}\n Dealer Stop Score: ${this.dealer.getStopScore()}
 ╔═══════════════════════════════════════
-║${this.player.toString()}
-║${this.dealer.toString()}
+║${this.participantString(this.player)}
+║${this.participantString(this.dealer)}
 ╠═══════════════════════════════════════
 ║         ${this.winnerToString()}
 ╚═══════════════════════════════════════
@@ -63,13 +70,21 @@ class Display {
    * @memberof Display
    */
   winnerToString () {
-    let winner = ''
-    if (this.player.getWin()) {
-      winner = this.player.nameToString()
-    } else {
-      winner = this.dealer.nameToString()
+    let winner = `${this.color.green(this.player.getName())} Wins!`
+    if (this.dealer === this.winner) {
+      winner = `${this.color.green(this.dealer.getName())} Wins!`
     }
-    return winner + ' Wins !'
+    return winner
+  }
+
+  participantString (p1) {
+    let pString = `${p1.getName()}: ${p1.hand.handToString()} ${p1.score.scoreToString()}`
+    if (p1 === this.winner) {
+      pString = `${this.color.green(p1.getName())}: ${p1.hand.handToString()} ${p1.score.scoreToString()}`
+    } else if (p1 === this.busted) {
+      pString = `${p1.getName()}: ${p1.hand.handToString()} ${p1.score.scoreToString()} ${this.color.red('BUSTED !')}`
+    }
+    return pString
   }
 }
 

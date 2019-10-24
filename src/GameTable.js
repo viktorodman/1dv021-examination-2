@@ -36,6 +36,7 @@ class GameTable {
     this.deck = undefined
     this.throwPile = new ThrowPile()
     this.winner = undefined
+    this.busted = undefined
   }
 
   /**
@@ -99,7 +100,7 @@ class GameTable {
    * @memberof GameTable
    */
   results () {
-    this.display.setNewResult(this.currentPlayer, this.dealer)
+    this.display.setNewResult(this.currentPlayer, this.dealer, this.winner, this.busted)
     this.display.displayReuslts()
   }
 
@@ -111,6 +112,7 @@ class GameTable {
   nextRound () {
     this.throwPile.addToThrowPile(this.currentPlayer.throwCards(), this.dealer.throwCards())
     this.dealer.resetDealer()
+    this.busted = undefined
   }
 
   /**
@@ -147,6 +149,7 @@ class GameTable {
       this.winner = p1
       endGame = true
     } else if (this.checkBusted(p1)) {
+      this.busted = p1
       this.winner = p2
       endGame = true
     }
