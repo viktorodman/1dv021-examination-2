@@ -29,9 +29,9 @@ class Card {
   }
 
   /**
-   * returns the value of the rank property
+   * Returns the cards rank
    *
-   * @returns {string} returns the rank propertys value
+   * @returns {string} A card rank
    * @memberof Card
    */
   getRank () {
@@ -39,9 +39,9 @@ class Card {
   }
 
   /**
-   * Sets the value property to a new value
+   * Set the value of a card
    *
-   * @param {number} newValue A number
+   * @param {number} newValue A value for a card
    * @memberof Card
    */
   setValue (newValue) {
@@ -56,7 +56,15 @@ class Card {
    */
   cardToString () {
     const color = new Color()
-    return `${this.rank}${color.addSuitColor(this.suit)} `
+    let cardString
+
+    if (this.suit === '♥' || this.suit === '♦') {
+      cardString = `${this.rank}${color.red(this.suit)}`
+    } else {
+      cardString = `${this.rank}${color.black(this.suit)}`
+    }
+
+    return cardString
   }
 }
 

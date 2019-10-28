@@ -42,7 +42,7 @@ class Deck {
   /**
    * Removes a card from the deck and returns it
    *
-   * @returns {Card{}} returns a card
+   * @returns {Card} returns a card
    * @memberof Deck
    */
   dealCard () {
@@ -74,7 +74,7 @@ class Deck {
   /**
    * Adds cards to the deck
    *
-   * @param {Card{}[]} cards thrown cards
+   * @param {Card[]} cards thrown cards
    * @memberof Deck
    */
   addThrownCards (cards) {

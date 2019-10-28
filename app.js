@@ -9,12 +9,14 @@
 
 const GameTable = require('./src/GameTable')
 
+// Enter number of players
 const numberOfPlayers = 5
+// Enter the dealers stop value
 const dealerStopValue = 14
-/* try { */
-const gameTable = new GameTable(numberOfPlayers, dealerStopValue)
-gameTable.startGame()
-/* } catch (e) {
+
+try {
+  const gameTable = new GameTable(numberOfPlayers, dealerStopValue)
+  gameTable.startGame()
+} catch (e) {
   console.error(e.message)
-} */
-/* const gameTable = new GameTable(numberOfPlayers, dealerStopValue) */
+}

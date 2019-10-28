@@ -23,31 +23,12 @@ class Color {
     this.blackColor = '\x1b[30m'
     this.greenColor = '\x1b[32m'
     this.stopColor = '\x1b[0m'
-    this.hearts = '♥'
-    this.diamonds = '♦'
-  }
-
-  /**
-   * Adds color to the suit of a card
-   *
-   * @param {string} suit suit of a card
-   * @returns {string} returns a colored version of the passed string
-   * @memberof Color
-   */
-  addSuitColor (suit) {
-    let coloredSuit
-    if (suit === this.hearts || suit === this.diamonds) {
-      coloredSuit = this.red(suit)
-    } else {
-      coloredSuit = this.black(suit)
-    }
-    return coloredSuit
   }
 
   /**
    * Adds the color green to the passed string
    *
-   * @param {string} anyString The passed string
+   * @param {string} text The passed string
    * @returns {string} The passed string but in a green color
    * @memberof Color
    */
@@ -56,16 +37,23 @@ class Color {
   }
 
   /**
-   * Adds a red color to the passed string
+   * Adds the color red to the passed string
    *
-   * @param {string} text the passed string
-   * @returns {string} the passed string but in the color red
+   * @param {string} text The passed string
+   * @returns {string} The passed string but in a red color
    * @memberof Color
    */
   red (text) {
     return `${this.redColor}${text}${this.stopColor}`
   }
 
+  /**
+   * Adds the color black to the passed string
+   *
+   * @param {string} text The passed string
+   * @returns {string} The passed string but in a black color
+   * @memberof Color
+   */
   black (text) {
     return `${this.blackColor}${text}${this.stopColor}`
   }

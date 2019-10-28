@@ -28,7 +28,6 @@ class GameTable {
    */
   constructor (numberOfPlayers, dealerStopScore) {
     this.players = new Players(numberOfPlayers)
-    this.numberOfPlayers = numberOfPlayers
     this.dealerStopScore = dealerStopScore
     this.dealer = undefined
     this.display = new Display()
@@ -60,7 +59,7 @@ class GameTable {
   startGame () {
     this.prepareGame()
     this.firstRound()
-    this.playAgainstDealer()
+    this.play()
   }
 
   /**
@@ -75,13 +74,14 @@ class GameTable {
   }
 
   /**
-   * Each players plays one at a time against the dealer
+   * Each player plays one at a time against the dealer
    *
    * @memberof GameTable
    */
-  playAgainstDealer () {
+  play () {
     this.players.getPlayers().forEach((player) => {
       this.currentPlayer = player
+
       this.getCards(player)
       if (!this.endRound(player, this.dealer)) {
         this.getCards(this.dealer)
@@ -135,11 +135,9 @@ class GameTable {
 
   /**
    *  Checks if the game should continue.
-   *  Returns false if the game should continue
-   *  Returns true if the game is done. Also sets the winner
    *
-   * @param {Player | Dealer} p1
-   * @param {Player | Dealer} p2
+   * @param {Player | Dealer} p1 A player or dealer
+   * @param {Player | Dealer} p2 A player or dealer
    * @returns {boolean} returns false if the game should continue
    * @memberof GameTable
    */
@@ -156,16 +154,30 @@ class GameTable {
     return endGame
   }
 
-  checkWin (p1) {
+  /**
+   * Checks if the participant wins
+   *
+   * @param {(Player | Dealer)} participant A player or dealer
+   * @returns {boolean} returns true if the participant wins
+   * @memberof GameTable
+   */
+  checkWin (participant) {
     let newWinner = false
-    if (p1.score.getScore() === p1.score.getMaxScore()) {
+    if (participant.score.getScore() === participant.score.getMaxScore()) {
       newWinner = true
-    } else if (p1.score.getScore() <= p1.score.getMaxScore() && p1.hand.getLength() === p1.hand.getMaxAmountOfCards()) {
+    } else if (participant.score.getScore() <= participant.score.getMaxScore() && participant.hand.getLength() === participant.hand.getMaxAmountOfCards()) {
       newWinner = true
     }
     return newWinner
   }
 
+  /**
+   * Checks if the participant gets busted
+   *
+   * @param {(Player | Dealer)} participant A player or dealer
+   * @returns {boolean} returns true if the participant is busted
+   * @memberof GameTable
+   */
   checkBusted (p1) {
     let busted = false
     if (p1.score.getScore() > p1.score.getMaxScore()) {

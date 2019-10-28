@@ -26,7 +26,7 @@ class Hand {
   /**
    * Adds cards to the hand
    *
-   * @param {Card} card
+   * @param {Card} card A card
    * @memberof Hand
    */
   addCard (card) {
@@ -53,6 +53,12 @@ class Hand {
     return this.cardsOnHand
   }
 
+  /**
+   * Gets the maximum amount of cards allowed
+   *
+   * @returns {number} returns the maximum amount of cards allowed
+   * @memberof Hand
+   */
   getMaxAmountOfCards () {
     return this.maxAmountOfCards
   }
@@ -68,20 +74,22 @@ class Hand {
   }
 
   /**
-   * Creates a string of the cards on the hand
+   * Creates a string of the hand
    *
    * @returns {string} A string representing the cards on hand
    * @memberof Hand
    */
   handToString () {
     let cards = ''
+
+    this.cardsOnHand.forEach((card) => {
+      cards += card.cardToString()
+    })
+
     if (this.getLength === 0) {
       cards = '-'
-    } else {
-      this.cardsOnHand.forEach((card) => {
-        cards += card.cardToString()
-      })
     }
+
     return cards
   }
 }

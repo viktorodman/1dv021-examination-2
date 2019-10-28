@@ -10,7 +10,6 @@
 
 const Hand = require('./Hand')
 const Score = require('./Score')
-const Color = require('./Color')
 
 /**
  * Represents a Player
@@ -38,6 +37,9 @@ class Player {
   set stopScore (stopScore) {
     if (stopScore < 1 || stopScore > 22) {
       throw new Error('Stop Score must be greater than 2 or less than 21')
+    }
+    if (isNaN(stopScore)) {
+      throw new Error('Stop Score must be a number')
     }
     this._stopScore = stopScore
   }
@@ -109,10 +111,22 @@ class Player {
     return this.hand.getCards().reduce((a, b) => a + b.value, 0)
   }
 
+  /**
+   * Gets the name of the player
+   *
+   * @returns {string} The name of the player
+   * @memberof Player
+   */
   getName () {
     return this.name
   }
 
+  /**
+   * Gets the stop score of the player
+   *
+   * @returns {number} Stop score of the player
+   * @memberof Player
+   */
   getStopScore () {
     return this.stopScore
   }

@@ -5,7 +5,14 @@
  * @author Viktor Ödman
  * @version 1.0.0
 */
+
 'use strict'
+
+/**
+ * Represents a throw pile
+ *
+ * @class ThrowPile
+ */
 class ThrowPile {
   /**
    * Creates an instance of ThrowPile.

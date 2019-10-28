@@ -32,8 +32,6 @@ class Dealer extends Player {
    */
   resetDealer () {
     this.score.setScore(0)
-    this.busted = undefined
-    this.winner = undefined
   }
 }
 module.exports = Dealer

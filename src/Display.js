@@ -17,10 +17,8 @@ const Color = require('./Color')
  */
 class Display {
   /**
-   *Creates an instance of Display.
-   * @param {Dealer{} or Player{}} winner
-   * @param {Player{}} Player
-   * @param {Dealer{}} Dealer
+   * Creates an instance of Display.
+   *
    * @memberof Display
    */
   constructor () {
@@ -34,9 +32,10 @@ class Display {
   /**
    * Sets the winner player and dealer
    *
-   * @param {Player{} or Dealer{}} winner The winner
-   * @param {Player{}} player A Player
-   * @param {Dealer{}} dealer A Dealer
+   * @param {(Player | Dealer)} winner A player or dealer
+   * @param {Player} player A Player
+   * @param {Dealer} dealer A Dealer
+   * @param {(Player | Dealer)} busted A player or dealer
    * @memberof Display
    */
   setNewResult (player, dealer, winner, busted) {
@@ -52,38 +51,62 @@ class Display {
    * @memberof Display
    */
   displayReuslts () {
-    console.log(
-` Player Stop Score: ${this.player.getStopScore()}\n Dealer Stop Score: ${this.dealer.getStopScore()}
-╔═══════════════════════════════════════
-║${this.participantString(this.player)}
-║${this.participantString(this.dealer)}
-╠═══════════════════════════════════════
-║         ${this.winnerToString()}
-╚═══════════════════════════════════════
-`)
+    console.log(this.resultToString())
   }
 
   /**
-   * Creates a string showing the winner
+   * Creates a string with the results
    *
-   * @returns {string} returns a string showing the winner
+   * @returns {string} returns a string with the results
+   * @memberof Display
+   */
+  resultToString () {
+    return ` 
+    Player Stop Score: ${this.player.getStopScore()}
+    Dealer Stop Score: ${this.dealer.getStopScore()}
+   ╔═══════════════════════════════════════
+   ║${this.participantString(this.player)}
+   ║${this.participantString(this.dealer)}
+   ╠═══════════════════════════════════════
+   ║         ${this.winnerToString()}
+   ╚═══════════════════════════════════════
+   `
+  }
+
+  /**
+   * Creates a string representing the winner
+   *
+   * @returns {string} returns a string representing the winner
    * @memberof Display
    */
   winnerToString () {
     let winner = `${this.color.green(this.player.getName())} Wins!`
+
     if (this.dealer === this.winner) {
       winner = `${this.color.green(this.dealer.getName())} Wins!`
     }
+
     return winner
   }
 
+  /**
+   * Creates a string representing a player or dealer.
+   *
+   * @param {(Player | Dealer)} p1 A player or dealer
+   * @returns {string} A string representing a player or dealer
+   * @memberof Display
+   */
   participantString (p1) {
     let pString = `${p1.getName()}: ${p1.hand.handToString()} ${p1.score.scoreToString()}`
+
     if (p1 === this.winner) {
       pString = `${this.color.green(p1.getName())}: ${p1.hand.handToString()} ${p1.score.scoreToString()}`
-    } else if (p1 === this.busted) {
-      pString = `${p1.getName()}: ${p1.hand.handToString()} ${p1.score.scoreToString()} ${this.color.red('BUSTED !')}`
     }
+
+    if (p1 === this.busted) {
+      pString = pString + this.color.red(' BUSTED!')
+    }
+
     return pString
   }
 }

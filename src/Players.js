@@ -13,7 +13,7 @@ const Player = require('./Player')
 /**
  *  Represents the Players
  *
- * @param {number} numberOfPlayers The amount of players participating
+ * @param {number} numberOfPlayers The amount of players
  */
 function Players (numberOfPlayers) {
   this.numberOfPlayers = numberOfPlayers
@@ -55,6 +55,12 @@ Players.prototype.generateStopValue = function () {
   return Math.floor(Math.random() * (this.maxStopValue - this.minStopValue + 1)) + this.minStopValue
 }
 
+/**
+ * Returns the players
+ *
+ * @returns {Player[]} Returns the players
+ * @memberof Players
+ */
 Players.prototype.getPlayers = function () {
   return this.players
 }
