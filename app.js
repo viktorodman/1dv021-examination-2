@@ -10,9 +10,9 @@
 const GameTable = require('./src/GameTable')
 
 // Enter number of players
-const numberOfPlayers = 5
+const numberOfPlayers = 15
 // Enter the dealers stop value
-const dealerStopValue = 14
+const dealerStopValue = 31
 
 try {
   const gameTable = new GameTable(numberOfPlayers, dealerStopValue)

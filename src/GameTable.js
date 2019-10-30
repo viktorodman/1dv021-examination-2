@@ -27,7 +27,8 @@ class GameTable {
    * @memberof GameTable
    */
   constructor (numberOfPlayers, dealerStopScore) {
-    this.players = new Players(numberOfPlayers)
+    this.players = new Players()
+    this.numberOfPlayers = numberOfPlayers
     this.dealerStopScore = dealerStopScore
     this.dealer = undefined
     this.display = new Display()
@@ -44,7 +45,9 @@ class GameTable {
    * @memberof GameTable
    */
   prepareGame () {
-    this.dealer = new Dealer(this.dealerStopScore)
+    this.dealer = new Dealer()
+    this.dealer.setStopScore(this.dealerStopScore)
+    this.players.setNumberOfPlayers(this.numberOfPlayers)
     this.players.addPlayers()
     this.deck = new Deck()
     this.deck.createDeck()

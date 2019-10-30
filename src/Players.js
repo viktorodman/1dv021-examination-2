@@ -15,35 +15,41 @@ const Player = require('./Player')
  *
  * @param {number} numberOfPlayers The amount of players
  */
-function Players (numberOfPlayers) {
-  this.numberOfPlayers = numberOfPlayers
+function Players () {
+  this.numberOfPlayers = undefined
   this.players = []
   this.minStopValue = 13
   this.maxStopValue = 19
 }
 
-Object.defineProperty(Players.prototype, 'numberOfPlayers', {
-  get: function () {
-    return this._numberOfPlayers
-  },
-  set: function (value) {
-    if (value < 1 || value >= 30) {
-      throw new Error('Wrong number of players: Number of players must be between 1-30 Players')
-    } if (isNaN(value)) {
-      throw new Error('Number of players must be a number')
-    }
-    this._numberOfPlayers = value
+Players.prototype.setNumberOfPlayers = function (numberOfPlayers) {
+  if (numberOfPlayers < 1 || numberOfPlayers >= 30) {
+    throw new Error('Wrong number of players: Number of players must be between 1-30 Players')
+  } if (isNaN(numberOfPlayers)) {
+    throw new Error('Number of players must be a number')
   }
-})
+  this.numberOfPlayers = numberOfPlayers
+}
+
+Players.prototype.getNumberOfPlayers = function () {
+  return this.numberOfPlayers
+}
 
 /**
  * Adds new players
  * @memberof Players
  */
 Players.prototype.addPlayers = function () {
-  for (let i = 1; i <= this.numberOfPlayers; i++) {
-    this.players.push(new Player(`Player #${i}`, this.generateStopValue()))
+  for (let i = 1; i <= this.getNumberOfPlayers(); i++) {
+    this.players.push(new Player(`Player #${i}`))
   }
+  this.setStopScores()
+}
+
+Players.prototype.setStopScores = function () {
+  this.players.forEach((player) => {
+    player.setStopScore(this.generateStopValue())
+  })
 }
 /**
  * Generates Stop Values

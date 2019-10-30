@@ -23,25 +23,31 @@ class Player {
    * @param {number} stopScore Stop score for the player
    * @memberof Player
    */
-  constructor (name, stopScore) {
+  constructor (name) {
     this.name = name
-    this.stopScore = stopScore
+    this.stopScore = undefined
     this.hand = new Hand()
     this.score = new Score()
   }
 
-  get stopScore () {
-    return this._stopScore
+  /**
+   * Gets the stop score of the player
+   *
+   * @returns {number} Stop score of the player
+   * @memberof Player
+   */
+  getStopScore () {
+    return this.stopScore
   }
 
-  set stopScore (stopScore) {
+  setStopScore (stopScore) {
     if (stopScore < 1 || stopScore > 22) {
       throw new Error('Stop Score must be greater than 2 or less than 21')
     }
     if (isNaN(stopScore)) {
       throw new Error('Stop Score must be a number')
     }
-    this._stopScore = stopScore
+    this.stopScore = stopScore
   }
 
   /**
@@ -83,7 +89,7 @@ class Player {
    */
   isDone () {
     let done = false
-    if (this.score.getScore() < this.stopScore && this.hand.getLength() < this.hand.getMaxAmountOfCards()) {
+    if (this.score.getScore() < this.getStopScore() && this.hand.getLength() < this.hand.getMaxAmountOfCards()) {
       done = false
     } else {
       done = true
@@ -119,16 +125,6 @@ class Player {
    */
   getName () {
     return this.name
-  }
-
-  /**
-   * Gets the stop score of the player
-   *
-   * @returns {number} Stop score of the player
-   * @memberof Player
-   */
-  getStopScore () {
-    return this.stopScore
   }
 }
 

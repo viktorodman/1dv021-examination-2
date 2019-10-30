@@ -21,8 +21,8 @@ class Dealer extends Player {
    * @param {number} stopScore Stopscore
    * @memberof Dealer
    */
-  constructor (stopScore) {
-    super('Dealer', stopScore)
+  constructor () {
+    super('Dealer')
   }
 
   /**
