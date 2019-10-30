@@ -27,31 +27,15 @@ class GameTable {
    * @memberof GameTable
    */
   constructor (numberOfPlayers, dealerStopScore) {
-    this.players = new Players()
     this.numberOfPlayers = numberOfPlayers
     this.dealerStopScore = dealerStopScore
-    this.dealer = undefined
+    this.players = new Players()
     this.display = new Display()
-    this.currentPlayer = undefined
-    this.deck = undefined
     this.throwPile = new ThrowPile()
+    this.dealer = new Dealer()
+    this.deck = new Deck()
     this.winner = undefined
     this.busted = undefined
-  }
-
-  /**
-   * Adds the needed components for the game
-   *
-   * @memberof GameTable
-   */
-  prepareGame () {
-    this.dealer = new Dealer()
-    this.dealer.setStopScore(this.dealerStopScore)
-    this.players.setNumberOfPlayers(this.numberOfPlayers)
-    this.players.addPlayers()
-    this.deck = new Deck()
-    this.deck.createDeck()
-    this.deck.shuffleCards()
   }
 
   /**
@@ -62,7 +46,23 @@ class GameTable {
   startGame () {
     this.prepareGame()
     this.firstRound()
-    this.play()
+
+    this.players.getPlayers().forEach((player) => {
+      this.play(player)
+    })
+  }
+
+  /**
+   * Adds the needed components for the game
+   *
+   * @memberof GameTable
+   */
+  prepareGame () {
+    this.dealer.setStopScore(this.dealerStopScore)
+    this.players.setNumberOfPlayers(this.numberOfPlayers)
+    this.players.addPlayers()
+    this.deck.createDeck()
+    this.deck.shuffleCards()
   }
 
   /**
@@ -81,41 +81,16 @@ class GameTable {
    *
    * @memberof GameTable
    */
-  play () {
-    this.players.getPlayers().forEach((player) => {
-      this.currentPlayer = player
-
-      this.getCards(player)
-      if (!this.endRound(player, this.dealer)) {
-        this.getCards(this.dealer)
-        if (!this.endRound(this.dealer, player)) {
-          this.compareCards()
-        }
+  play (player) {
+    this.getCards(player)
+    if (!this.endRound(player, this.dealer)) {
+      this.getCards(this.dealer)
+      if (!this.endRound(this.dealer, player)) {
+        this.compareCards(player)
       }
-      this.results()
-      this.nextRound()
-    })
-  }
-
-  /**
-   * Calls the display with the results
-   *
-   * @memberof GameTable
-   */
-  results () {
-    this.display.setNewResult(this.currentPlayer, this.dealer, this.winner, this.busted)
-    this.display.displayReuslts()
-  }
-
-  /**
-   * Prepares the next round
-   *
-   * @memberof GameTable
-   */
-  nextRound () {
-    this.throwPile.addToThrowPile(this.currentPlayer.throwCards(), this.dealer.throwCards())
-    this.dealer.resetDealer()
-    this.busted = undefined
+    }
+    this.results(player)
+    this.prepareNextRound(player)
   }
 
   /**
@@ -124,34 +99,34 @@ class GameTable {
    * @param {(Player | Dealer)} participant Dealer or Player
    * @memberof GameTable
    */
-  getCards (participant) {
+  getCards (person) {
     do {
       if (this.deck.cardsRemaining() > 1) {
-        participant.requestCard(this.deck.dealCard())
+        person.requestCard(this.deck.dealCard())
       } else {
         this.deck.addThrownCards(this.throwPile.moveCardsTodeck())
-        participant.requestCard(this.deck.dealCard())
+        person.requestCard(this.deck.dealCard())
       }
     }
-    while (!participant.isDone())
+    while (!person.isDone())
   }
 
   /**
    *  Checks if the game should continue.
    *
-   * @param {Player | Dealer} p1 A player or dealer
-   * @param {Player | Dealer} p2 A player or dealer
+   * @param {Player | Dealer} person1 A player or dealer
+   * @param {Player | Dealer} person2 A player or dealer
    * @returns {boolean} returns false if the game should continue
    * @memberof GameTable
    */
-  endRound (p1, p2) {
+  endRound (person1, person2) {
     let endGame = false
-    if (this.checkWin(p1)) {
-      this.winner = p1
+    if (this.checkWin(person1)) {
+      this.winner = person1
       endGame = true
-    } else if (this.checkBusted(p1)) {
-      this.busted = p1
-      this.winner = p2
+    } else if (this.checkBusted(person1)) {
+      this.busted = person1
+      this.winner = person2
       endGame = true
     }
     return endGame
@@ -160,15 +135,15 @@ class GameTable {
   /**
    * Checks if the participant wins
    *
-   * @param {(Player | Dealer)} participant A player or dealer
+   * @param {(Player | Dealer)} person A player or dealer
    * @returns {boolean} returns true if the participant wins
    * @memberof GameTable
    */
-  checkWin (participant) {
+  checkWin (person) {
     let newWinner = false
-    if (participant.score.getScore() === participant.score.getMaxScore()) {
+    if (person.score.getScore() === person.score.getMaxScore()) {
       newWinner = true
-    } else if (participant.score.getScore() <= participant.score.getMaxScore() && participant.hand.getLength() === participant.hand.getMaxAmountOfCards()) {
+    } else if (person.score.getScore() <= person.score.getMaxScore() && person.hand.getLength() === person.hand.getMaxAmountOfCards()) {
       newWinner = true
     }
     return newWinner
@@ -177,13 +152,13 @@ class GameTable {
   /**
    * Checks if the participant gets busted
    *
-   * @param {(Player | Dealer)} participant A player or dealer
+   * @param {(Player | Dealer)} person A player or dealer
    * @returns {boolean} returns true if the participant is busted
    * @memberof GameTable
    */
-  checkBusted (p1) {
+  checkBusted (person) {
     let busted = false
-    if (p1.score.getScore() > p1.score.getMaxScore()) {
+    if (person.score.getScore() > person.score.getMaxScore()) {
       busted = true
     }
     return busted
@@ -192,16 +167,38 @@ class GameTable {
   /**
    * Compares the player and the dealers score and decides the winner
    *
+   * @param {Player} player A player
    * @memberof GameTable
    */
-  compareCards () {
-    if (this.currentPlayer.score.getScore() === this.dealer.score.getScore()) {
+  compareCards (player) {
+    if (player.score.getScore() === this.dealer.score.getScore()) {
       this.winner = this.dealer
-    } else if (this.currentPlayer.score.getScore() < this.dealer.score.getScore()) {
+    } else if (player.score.getScore() < this.dealer.score.getScore()) {
       this.winner = this.dealer
     } else {
-      this.winner = this.currentPlayer
+      this.winner = player
     }
+  }
+
+  /**
+   * Calls the display with the results
+   *
+   * @memberof GameTable
+   */
+  results (player) {
+    this.display.setNewResult(player, this.dealer, this.winner, this.busted)
+    this.display.displayReuslts()
+  }
+
+  /**
+   * Prepares the next round
+   *
+   * @memberof GameTable
+   */
+  prepareNextRound (player) {
+    this.throwPile.addToThrowPile(player.throwCards(), this.dealer.throwCards())
+    this.dealer.resetDealer()
+    this.busted = undefined
   }
 }
 

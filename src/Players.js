@@ -13,7 +13,6 @@ const Player = require('./Player')
 /**
  *  Represents the Players
  *
- * @param {number} numberOfPlayers The amount of players
  */
 function Players () {
   this.numberOfPlayers = undefined
@@ -23,7 +22,7 @@ function Players () {
 }
 
 Players.prototype.setNumberOfPlayers = function (numberOfPlayers) {
-  if (numberOfPlayers < 1 || numberOfPlayers >= 30) {
+  if (numberOfPlayers < 1 || numberOfPlayers > 30) {
     throw new Error('Wrong number of players: Number of players must be between 1-30 Players')
   } if (isNaN(numberOfPlayers)) {
     throw new Error('Number of players must be a number')

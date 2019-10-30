@@ -18,7 +18,7 @@ const Player = require('./Player')
 class Dealer extends Player {
   /**
    * Creates an instance of Dealer.
-   * @param {number} stopScore Stopscore
+   *
    * @memberof Dealer
    */
   constructor () {
