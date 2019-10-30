@@ -3,7 +3,7 @@
  *
  * @module src/Deck
  * @author Viktor Ödman
- * @version 1.0.0
+ * @version 1.1.0
 */
 
 'use strict'
@@ -52,11 +52,11 @@ class Deck {
 
   /**
    * Shuffles the cards in the deck
+   * https://medium.com/@joshfoster_14132/best-javascript-shuffle-algorithm-c2c8057a3bc1
    *
    * @memberof Deck
    */
   shuffleCards () {
-    // https://medium.com/@joshfoster_14132/best-javascript-shuffle-algorithm-c2c8057a3bc1
     let currentIndex = this.newDeck.length
     let temporaryValue = 0
     let randomIndex = 0
@@ -72,7 +72,7 @@ class Deck {
   }
 
   /**
-   * Adds cards to the deck
+   * Adds cards to the deck and shuffles the deck
    *
    * @param {Card[]} cards thrown cards
    * @memberof Deck

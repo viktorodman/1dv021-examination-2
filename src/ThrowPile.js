@@ -3,7 +3,7 @@
  *
  * @module src/ThrowPile
  * @author Viktor Ödman
- * @version 1.0.0
+ * @version 1.1.0
 */
 
 'use strict'
@@ -37,9 +37,10 @@ class ThrowPile {
   }
 
   /**
-   * Removes the cards from thrownCards and returns them
+   * Removes the cards from thrownCards and
+   * returns the removed cards
    *
-   * @returns returns the cards in thrownCards
+   * @returns {Card[]} Returns the cards in thrownCards
    * @memberof ThrowPile
    */
   moveCardsTodeck () {

@@ -3,7 +3,7 @@
  *
  * @module src/GameTable
  * @author Viktor Ödman
- * @version 1.0.0
+ * @version 1.1.0
 */
 
 'use strict'
@@ -22,8 +22,9 @@ const Display = require('./Display')
 class GameTable {
   /**
    * Creates an instance of GameTable.
-   * @param {number} numberOfPlayers Amount of players playing
-   * @param {number} dealerStopScore A stop value for the dealer
+   *
+   * @param {number} numberOfPlayers The amount of players participating
+   * @param {number} dealerStopScore The stop value for the dealer
    * @memberof GameTable
    */
   constructor (numberOfPlayers, dealerStopScore) {
@@ -77,8 +78,9 @@ class GameTable {
   }
 
   /**
-   * Each player plays one at a time against the dealer
+   * A player plays against the dealer
    *
+   * @param {Player} player A player
    * @memberof GameTable
    */
   play (player) {
@@ -94,9 +96,9 @@ class GameTable {
   }
 
   /**
-   *  Gives the player or the dealar a new card until they request to stop
+   *  Gives a person a new card until they request to stop
    *
-   * @param {(Player | Dealer)} participant Dealer or Player
+   * @param {(Player | Dealer)} person A dealer or player
    * @memberof GameTable
    */
   getCards (person) {
@@ -112,11 +114,11 @@ class GameTable {
   }
 
   /**
-   *  Checks if the game should continue.
+   *  Checks if the round should continue.
    *
    * @param {Player | Dealer} person1 A player or dealer
    * @param {Player | Dealer} person2 A player or dealer
-   * @returns {boolean} returns false if the game should continue
+   * @returns {boolean} returns false if the round should continue
    * @memberof GameTable
    */
   endRound (person1, person2) {
@@ -133,10 +135,10 @@ class GameTable {
   }
 
   /**
-   * Checks if the participant wins
+   * Checks if the passed person wins
    *
    * @param {(Player | Dealer)} person A player or dealer
-   * @returns {boolean} returns true if the participant wins
+   * @returns {boolean} Returns true if the person wins
    * @memberof GameTable
    */
   checkWin (person) {
@@ -150,10 +152,10 @@ class GameTable {
   }
 
   /**
-   * Checks if the participant gets busted
+   * Checks if the person gets busted
    *
    * @param {(Player | Dealer)} person A player or dealer
-   * @returns {boolean} returns true if the participant is busted
+   * @returns {boolean} Returns true if the person gets busted
    * @memberof GameTable
    */
   checkBusted (person) {
@@ -183,6 +185,7 @@ class GameTable {
   /**
    * Calls the display with the results
    *
+   * @param {Player} player A player
    * @memberof GameTable
    */
   results (player) {
@@ -193,6 +196,7 @@ class GameTable {
   /**
    * Prepares the next round
    *
+   * @param {Player} player A player
    * @memberof GameTable
    */
   prepareNextRound (player) {

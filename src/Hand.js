@@ -3,7 +3,7 @@
  *
  * @module src/Hand
  * @author Viktor Ödman
- * @version 1.0.0
+ * @version 1.1.0
 */
 
 'use strict'
@@ -34,9 +34,9 @@ class Hand {
   }
 
   /**
-   * Returns the number of cards in the hand
+   * Returns the number of cards on the hand
    *
-   * @returns {number} returns the number of cards on hand
+   * @returns {number} Returns the number of cards on hand
    * @memberof Hand
    */
   getLength () {
@@ -46,7 +46,7 @@ class Hand {
   /**
    * Returns the hand
    *
-   * @returns {Card[]} returns the hand
+   * @returns {Card[]} Returns the hand
    * @memberof Hand
    */
   getCards () {
@@ -54,7 +54,7 @@ class Hand {
   }
 
   /**
-   * Gets the maximum amount of cards allowed
+   * Gets the maximum amount of cards allowed on hand
    *
    * @returns {number} returns the maximum amount of cards allowed
    * @memberof Hand
@@ -64,9 +64,9 @@ class Hand {
   }
 
   /**
-   * Returns the cards on the hand and removes the cars on hand
+   * Removes the cards on hand and returns the removed cards
    *
-   * @returns {Card[]} returns the cards on the hand
+   * @returns {Card[]} Returns the cards on the hand
    * @memberof Hand
    */
   emptyHand () {
@@ -76,7 +76,7 @@ class Hand {
   /**
    * Creates a string of the hand
    *
-   * @returns {string} A string representing the cards on hand
+   * @returns {string} A string representing the hand
    * @memberof Hand
    */
   handToString () {
@@ -86,7 +86,7 @@ class Hand {
       cards += card.cardToString()
     })
 
-    if (this.getLength === 0) {
+    if (this.getLength() === 0) {
       cards = '-'
     }
 

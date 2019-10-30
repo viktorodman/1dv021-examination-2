@@ -3,7 +3,7 @@
  *
  * @module src/Card
  * @author Viktor Ödman
- * @version 1.0.0
+ * @version 1.1.0
 */
 
 'use strict'
@@ -12,11 +12,13 @@ const Color = require('./Color')
 
 /**
  * Represents a card
+ *
  * @class Card
  */
 class Card {
   /**
    * Creates an instance of Card.
+   *
    * @param {string} suit Suit of the card
    * @param {string} rank Rank of the card
    * @param {number} value Value of the card
@@ -51,7 +53,7 @@ class Card {
   /**
    * Creates a string of the card
    *
-   * @returns {string} returns a string representing the card
+   * @returns {string} Returns a string representing the card
    * @memberof Card
    */
   cardToString () {

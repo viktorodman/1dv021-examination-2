@@ -3,7 +3,7 @@
  *
  * @module src/Player
  * @author Viktor Ödman
- * @version 1.0.0
+ * @version 1.1.0
 */
 
 'use strict'
@@ -19,8 +19,8 @@ const Score = require('./Score')
 class Player {
   /**
    * Creates an instance of Player.
+   *
    * @param {string} name The name of the player
-   * @param {number} stopScore Stop score for the player
    * @memberof Player
    */
   constructor (name) {
@@ -40,9 +40,18 @@ class Player {
     return this.stopScore
   }
 
+  /**
+   * Sets the stop score for the player and checks
+   * if the passed argument is correct.
+   *
+   * @throws {Error} If the passed argument is not between 1-21
+   * @throws {Error} If the passed argument is not a number
+   * @param {number} stopScore Stop score for the player
+   * @memberof Player
+   */
   setStopScore (stopScore) {
-    if (stopScore < 1 || stopScore > 22) {
-      throw new Error('Stop Score must be greater than 2 or less than 21')
+    if (stopScore < 1 || stopScore > 21) {
+      throw new Error('Stop Score must be between 1-21')
     }
     if (isNaN(stopScore)) {
       throw new Error('Stop Score must be a number')
@@ -84,15 +93,13 @@ class Player {
   /**
    * Checks if player wants another card
    *
-   * @returns {boolean} returns true or false
+   * @returns {boolean} Returns false is the players wants another card
    * @memberof Player
    */
   isDone () {
-    let done = false
+    let done = true
     if (this.score.getScore() < this.getStopScore() && this.hand.getLength() < this.hand.getMaxAmountOfCards()) {
       done = false
-    } else {
-      done = true
     }
     return done
   }
@@ -110,7 +117,7 @@ class Player {
   /**
    * Returns the sum of all card values
    *
-   * @returns {number} return the sum of all card values
+   * @returns {number} The sum of all card values
    * @memberof Player
    */
   addCardValues () {

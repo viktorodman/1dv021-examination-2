@@ -2,7 +2,7 @@
  * Starting point of the application
  *
  * @author Viktor Ödman
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 'use strict'
@@ -14,9 +14,9 @@ const numberOfPlayers = 30
 // Enter the dealers stop value
 const dealerStopValue = 15
 
-/* try { */
-const gameTable = new GameTable(numberOfPlayers, dealerStopValue)
-gameTable.startGame()
-/* } catch (e) {
+try {
+  const gameTable = new GameTable(numberOfPlayers, dealerStopValue)
+  gameTable.startGame()
+} catch (e) {
   console.error(e.message)
-} */
+}

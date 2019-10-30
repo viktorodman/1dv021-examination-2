@@ -3,7 +3,7 @@
  *
  * @module src/Color
  * @author Viktor Ödman
- * @version 1.0.0
+ * @version 1.1.0
 */
 
 'use strict'

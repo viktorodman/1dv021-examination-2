@@ -3,7 +3,7 @@
  *
  * @module src/Display
  * @author Viktor Ödman
- * @version 1.0.0
+ * @version 1.1.0
 */
 
 'use strict'
@@ -33,8 +33,8 @@ class Display {
    * Sets the winner player and dealer
    *
    * @param {(Player | Dealer)} winner A player or dealer
-   * @param {Player} player A Player
-   * @param {Dealer} dealer A Dealer
+   * @param {Player} player A player
+   * @param {Dealer} dealer A dealer
    * @param {(Player | Dealer)} busted A player or dealer
    * @memberof Display
    */
@@ -57,7 +57,7 @@ class Display {
   /**
    * Creates a string with the results
    *
-   * @returns {string} returns a string with the results
+   * @returns {string} Returns a string with the results
    * @memberof Display
    */
   resultToString () {
@@ -76,7 +76,7 @@ class Display {
   /**
    * Creates a string representing the winner
    *
-   * @returns {string} returns a string representing the winner
+   * @returns {string} Returns a string representing the winner
    * @memberof Display
    */
   winnerToString () {
@@ -92,19 +92,19 @@ class Display {
   /**
    * Creates a string representing a player or dealer.
    *
-   * @param {(Player | Dealer)} p1 A player or dealer
+   * @param {(Player | Dealer)} person A player or dealer
    * @returns {string} A string representing a player or dealer
    * @memberof Display
    */
-  participantString (p1) {
-    let pString = `${p1.getName()}: ${p1.hand.handToString()} ${p1.score.scoreToString()}`
+  participantString (person) {
+    let pString = `${person.getName()}: ${person.hand.handToString()} ${person.score.scoreToString()}`
 
-    if (p1 === this.winner) {
-      pString = `${this.color.green(p1.getName())}: ${p1.hand.handToString()} ${p1.score.scoreToString()}`
+    if (person === this.winner) {
+      pString = `${this.color.green(person.getName())}: ${person.hand.handToString()} ${person.score.scoreToString()}`
     }
 
-    if (p1 === this.busted) {
-      pString = pString + this.color.red(' BUSTED!')
+    if (person === this.busted) {
+      pString += this.color.red(' BUSTED!')
     }
 
     return pString

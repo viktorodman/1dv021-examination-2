@@ -3,19 +3,20 @@
  *
  * @module src/Score
  * @author Viktor Ödman
- * @version 1.0.0
+ * @version 1.1.0
 */
 
 'use strict'
 
 /**
- * Represents the players score
+ * Represents a participants Score
  *
  * @class Score
  */
 class Score {
   /**
    * Creates an instance of Score.
+   *
    * @memberof Score
    */
   constructor () {
@@ -24,9 +25,9 @@ class Score {
   }
 
   /**
-  * gets the score
+  * Gets the score
   *
-  * @returns {number} returns the score
+  * @returns {number} Returns the score
   * @memberof Score
   */
   getScore () {
@@ -34,10 +35,11 @@ class Score {
   }
 
   /**
-  * sets the score
-  *
-  * @memberof Score
-  */
+   * Sets the score
+   *
+   * @param {number} cardValues A new score
+   * @memberof Score
+   */
   setScore (cardValues) {
     this.score = cardValues
   }
@@ -45,7 +47,7 @@ class Score {
   /**
    * Creates a string of the score
    *
-   * @returns {string} returns a string representing the score
+   * @returns {string} Returns a string representing the score
    * @memberof Score
    */
   scoreToString () {
@@ -59,7 +61,7 @@ class Score {
   /**
    * Gets the maximum score of the game
    *
-   * @returns {number} returns the max score
+   * @returns {number} Returns the max score
    * @memberof Score
    */
   getMaxScore () {
